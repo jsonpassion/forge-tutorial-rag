@@ -1,10 +1,1216 @@
 {
-  "title": "Forge: RAG",
-  "subtitle": "RAG는 검색 증강 생성으로 AI의 정확성을 높이는 기술입니다.",
-  "version": "1.0.0",
-  "lastUpdated": "2026-03-05",
+  "title": "RAG Essential",
+  "description": "",
   "language": "ko",
-  "author": "Jason",
-  "chapters": [],
-  "resources": {}
+  "chapters": [
+    {
+      "id": "01-rag-개요-llm의-한계와-rag의-필요성",
+      "title": "RAG 개요 — LLM의 한계와 RAG의 필요성",
+      "description": "대규모 언어 모델(LLM)의 근본적 한계인 할루시네이션, 지식 단절, 도메인 특화 부족 문제를 분석하고, 이를 해결하기 위한 RAG(Retrieval-Augmented Generation) 패러다임의 탄생 배경과 핵심 개념을 학습합니다.",
+      "sections": [
+        {
+          "id": "01-llm의-한계-왜-외부-지식이-필요한가",
+          "title": "LLM의 한계 — 왜 외부 지식이 필요한가",
+          "file": "01-rag-개요-llm의-한계와-rag의-필요성/01-llm의-한계-왜-외부-지식이-필요한가.md",
+          "description": "LLM의 파라메트릭 메모리 한계, 할루시네이션 문제, 지식 단절(knowledge cutoff), 도메인 특화 부족 문제를 구체적 사례와 함께 분석",
+          "status": "generated",
+          "key_references": [
+            "https://arxiv.org/abs/2005.11401",
+            "https://developer.nvidia.com/blog/rag-101-demystifying-retrieval-augmented-generation-pipelines/"
+          ]
+        },
+        {
+          "id": "02-rag의-핵심-개념-검색-증강-생성이란",
+          "title": "RAG의 핵심 개념 — 검색 증강 생성이란",
+          "file": "01-rag-개요-llm의-한계와-rag의-필요성/02-rag의-핵심-개념-검색-증강-생성이란.md",
+          "description": "RAG의 정의, 파라메트릭 메모리와 비파라메트릭 메모리의 결합, Retrieve-Read 패턴의 동작 흐름, 간단한 RAG 개념 코드 예시",
+          "status": "generated",
+          "key_references": [
+            "https://arxiv.org/abs/2005.11401",
+            "https://developer.nvidia.com/blog/rag-101-demystifying-retrieval-augmented-generation-pipelines/"
+          ]
+        },
+        {
+          "id": "03-rag-원본-논문-핵심-분석",
+          "title": "RAG 원본 논문 핵심 분석",
+          "file": "01-rag-개요-llm의-한계와-rag의-필요성/03-rag-원본-논문-핵심-분석.md",
+          "description": "Lewis et al. RAG 논문의 아키텍처(RAG-Sequence, RAG-Token), DPR(Dense Passage Retrieval) 기반 검색기, BART 기반 생성기, 주요 실험 결과 해석",
+          "status": "generated",
+          "key_references": [
+            "https://arxiv.org/abs/2005.11401",
+            "https://arxiv.org/abs/2312.10997"
+          ]
+        },
+        {
+          "id": "04-rag-적용-사례와-생태계-개관",
+          "title": "RAG 적용 사례와 생태계 개관",
+          "file": "01-rag-개요-llm의-한계와-rag의-필요성/04-rag-적용-사례와-생태계-개관.md",
+          "description": "RAG가 효과적인 사용 사례(QA, 고객지원, 코드 검색 등), RAG가 불필요한 경우, 현재 RAG 생태계(프레임워크, 벡터DB, 평가도구) 전체 조망",
+          "status": "generated",
+          "key_references": [
+            "https://arxiv.org/abs/2312.10997",
+            "https://developer.nvidia.com/blog/rag-101-demystifying-retrieval-augmented-generation-pipelines/"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "02-rag-아키텍처-핵심-컴포넌트와-파이프라인-구조",
+      "title": "RAG 아키텍처 — 핵심 컴포넌트와 파이프라인 구조",
+      "description": "Naive RAG, Advanced RAG, Modular RAG의 세 가지 패러다임을 비교하고, 인덱싱-검색-생성으로 이어지는 RAG 파이프라인의 각 컴포넌트 역할과 데이터 흐름을 체계적으로 이해합니다.",
+      "sections": [
+        {
+          "id": "01-rag-파이프라인-전체-구조-ingestion과-inference",
+          "title": "RAG 파이프라인 전체 구조 — Ingestion과 Inference",
+          "file": "02-rag-아키텍처-핵심-컴포넌트와-파이프라인-구조/01-rag-파이프라인-전체-구조-ingestion과-inference.md",
+          "description": "문서 인제스션 파이프라인(로드→분할→임베딩→저장)과 추론 파이프라인(쿼리→검색→증강→생성)의 전체 데이터 흐름, 각 단계의 입출력 형태",
+          "status": "generated",
+          "key_references": [
+            "https://developer.nvidia.com/blog/rag-101-demystifying-retrieval-augmented-generation-pipelines/",
+            "https://developers.cloudflare.com/reference-architecture/diagrams/ai/ai-rag/"
+          ]
+        },
+        {
+          "id": "02-naive-rag-기본-패턴과-한계",
+          "title": "Naive RAG — 기본 패턴과 한계",
+          "file": "02-rag-아키텍처-핵심-컴포넌트와-파이프라인-구조/02-naive-rag-기본-패턴과-한계.md",
+          "description": "가장 단순한 RAG 구현 패턴, 직접적인 검색-생성 연결, Naive RAG의 주요 한계점(검색 품질, 청킹 문제, 컨텍스트 활용 부족)",
+          "status": "generated",
+          "key_references": [
+            "https://arxiv.org/abs/2312.10997",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "03-advanced-rag-검색-전후-최적화-전략",
+          "title": "Advanced RAG — 검색 전/후 최적화 전략",
+          "file": "02-rag-아키텍처-핵심-컴포넌트와-파이프라인-구조/03-advanced-rag-검색-전후-최적화-전략.md",
+          "description": "Pre-retrieval 최적화(쿼리 재작성, 쿼리 확장), Post-retrieval 최적화(리랭킹, 컨텍스트 압축), Advanced RAG 패턴이 Naive RAG를 개선하는 방식",
+          "status": "generated",
+          "key_references": [
+            "https://arxiv.org/abs/2312.10997",
+            "https://developers.cloudflare.com/reference-architecture/diagrams/ai/ai-rag/"
+          ]
+        },
+        {
+          "id": "04-modular-rag-유연한-모듈-조합-아키텍처",
+          "title": "Modular RAG — 유연한 모듈 조합 아키텍처",
+          "file": "02-rag-아키텍처-핵심-컴포넌트와-파이프라인-구조/04-modular-rag-유연한-모듈-조합-아키텍처.md",
+          "description": "모듈화된 RAG 컴포넌트 설계, 검색-생성 모듈의 독립적 교체와 조합, 라우팅과 오케스트레이션, Modular RAG의 실무 적용 사례",
+          "status": "generated",
+          "key_references": [
+            "https://arxiv.org/abs/2312.10997",
+            "https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-solution-design-and-evaluation-guide"
+          ]
+        },
+        {
+          "id": "05-rag-아키텍처-설계-실습-요구사항에서-설계까지",
+          "title": "RAG 아키텍처 설계 실습 — 요구사항에서 설계까지",
+          "file": "02-rag-아키텍처-핵심-컴포넌트와-파이프라인-구조/05-rag-아키텍처-설계-실습-요구사항에서-설계까지.md",
+          "description": "실제 비즈니스 요구사항(사내 문서 QA 시스템)을 기반으로 RAG 아키텍처 설계 실습, 컴포넌트 선택 기준, 아키텍처 다이어그램 작성",
+          "status": "generated",
+          "key_references": [
+            "https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-solution-design-and-evaluation-guide",
+            "https://developers.cloudflare.com/reference-architecture/diagrams/ai/ai-rag/"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "03-문서-로딩과-파싱-다양한-소스에서-데이터-수집",
+      "title": "문서 로딩과 파싱 — 다양한 소스에서 데이터 수집",
+      "description": "PDF, HTML, Word, Markdown 등 다양한 형식의 문서를 로드하고 구조화된 텍스트로 변환하는 방법을 학습합니다. Unstructured.io와 LangChain 문서 로더를 활용한 실전 파싱 파이프라인을 구축합니다.",
+      "sections": [
+        {
+          "id": "01-문서-로딩-기초-langchain-document-loaders",
+          "title": "문서 로딩 기초 — LangChain Document Loaders",
+          "file": "03-문서-로딩과-파싱-다양한-소스에서-데이터-수집/01-문서-로딩-기초-langchain-document-loaders.md",
+          "description": "LangChain의 Document 객체 구조(page_content, metadata), TextLoader, CSVLoader, JSONLoader 등 기본 로더 사용법, 메타데이터 추출과 활용",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langchain/rag",
+            "https://docs.langchain.com/oss/python/migrate/langchain-v1"
+          ]
+        },
+        {
+          "id": "02-pdf-문서-처리-텍스트-추출과-레이아웃-분석",
+          "title": "PDF 문서 처리 — 텍스트 추출과 레이아웃 분석",
+          "file": "03-문서-로딩과-파싱-다양한-소스에서-데이터-수집/02-pdf-문서-처리-텍스트-추출과-레이아웃-분석.md",
+          "description": "PDF 파싱의 어려움(레이아웃, 멀티컬럼, 헤더/푸터), PyPDF, pdfplumber, PDFMiner 비교, 테이블과 이미지가 포함된 PDF 처리 전략",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/Unstructured-IO/unstructured",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "03-unstructuredio-범용-문서-파싱-엔진",
+          "title": "Unstructured.io — 범용 문서 파싱 엔진",
+          "file": "03-문서-로딩과-파싱-다양한-소스에서-데이터-수집/03-unstructuredio-범용-문서-파싱-엔진.md",
+          "description": "Unstructured.io의 아키텍처와 지원 형식(25+ 타입), partition 함수 사용법, Element 타입(Title, NarrativeText, Table 등), 파싱 전략(fast, hi_res, ocr_only) 비교",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/Unstructured-IO/unstructured",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "04-웹-문서와-api-데이터-수집",
+          "title": "웹 문서와 API 데이터 수집",
+          "file": "03-문서-로딩과-파싱-다양한-소스에서-데이터-수집/04-웹-문서와-api-데이터-수집.md",
+          "description": "WebBaseLoader를 활용한 웹 페이지 크롤링, SitemapLoader로 사이트 전체 수집, API 응답 데이터를 Document로 변환, 크롤링 시 주의사항(robots.txt, rate limiting)",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langchain/rag",
+            "https://github.com/Unstructured-IO/unstructured"
+          ]
+        },
+        {
+          "id": "05-문서-로딩-파이프라인-구축-실전-etl",
+          "title": "문서 로딩 파이프라인 구축 — 실전 ETL",
+          "file": "03-문서-로딩과-파싱-다양한-소스에서-데이터-수집/05-문서-로딩-파이프라인-구축-실전-etl.md",
+          "description": "여러 소스(로컬 파일, 웹, DB)에서 문서를 수집하는 통합 파이프라인 구축, 메타데이터 정규화, 중복 제거, 증분 업데이트 전략 구현",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/Unstructured-IO/unstructured",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "04-텍스트-청킹-전략-문서-분할과-최적화",
+      "title": "텍스트 청킹 전략 — 문서 분할과 최적화",
+      "description": "RAG 성능에 결정적 영향을 미치는 텍스트 청킹(chunking) 전략을 깊이 있게 다룹니다. 고정 크기, 재귀적, 시멘틱 청킹 등 다양한 분할 방법의 원리와 트레이드오프를 실습을 통해 체득합니다.",
+      "sections": [
+        {
+          "id": "01-청킹의-중요성과-기본-원리",
+          "title": "청킹의 중요성과 기본 원리",
+          "file": "04-텍스트-청킹-전략-문서-분할과-최적화/01-청킹의-중요성과-기본-원리.md",
+          "description": "왜 청킹이 필요한가(임베딩 모델 토큰 제한, 검색 정밀도), 청크 크기와 검색 품질의 관계, 오버랩의 역할, 좋은 청크의 조건(의미적 완결성, 적절한 길이)",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langchain/rag",
+            "https://arxiv.org/abs/2312.10997"
+          ]
+        },
+        {
+          "id": "02-고정-크기-청킹과-재귀적-청킹",
+          "title": "고정 크기 청킹과 재귀적 청킹",
+          "file": "04-텍스트-청킹-전략-문서-분할과-최적화/02-고정-크기-청킹과-재귀적-청킹.md",
+          "description": "CharacterTextSplitter의 동작 원리와 한계, RecursiveCharacterTextSplitter의 계층적 분할 전략(\\n\\n→\\n→ →\"\"), 청크 크기/오버랩 파라미터 튜닝, Python 코드 실습",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langchain/rag",
+            "https://github.com/langchain-ai/rag-from-scratch"
+          ]
+        },
+        {
+          "id": "03-문서-유형별-특화-청킹",
+          "title": "문서 유형별 특화 청킹",
+          "file": "04-텍스트-청킹-전략-문서-분할과-최적화/03-문서-유형별-특화-청킹.md",
+          "description": "MarkdownHeaderTextSplitter로 마크다운 구조 보존, HTMLSectionSplitter로 HTML 섹션 분할, PythonCodeTextSplitter로 코드 함수/클래스 단위 분할, 각 스플리터의 적합한 사용 시나리오",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langchain/rag",
+            "https://github.com/langchain-ai/rag-from-scratch"
+          ]
+        },
+        {
+          "id": "04-시멘틱-청킹-의미-기반-분할",
+          "title": "시멘틱 청킹 — 의미 기반 분할",
+          "file": "04-텍스트-청킹-전략-문서-분할과-최적화/04-시멘틱-청킹-의미-기반-분할.md",
+          "description": "시멘틱 청킹의 원리(임베딩 유사도 기반 경계 감지), SemanticChunker 구현, breakpoint_threshold 튜닝, 고정 크기 청킹과의 검색 품질 비교 실험",
+          "status": "generated",
+          "key_references": [
+            "https://arxiv.org/abs/2312.10997",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "05-청킹-전략-비교-실험과-최적화",
+          "title": "청킹 전략 비교 실험과 최적화",
+          "file": "04-텍스트-청킹-전략-문서-분할과-최적화/05-청킹-전략-비교-실험과-최적화.md",
+          "description": "동일 문서셋에 여러 청킹 전략 적용 후 검색 품질 비교, 청크 크기별 성능 벤치마크, 도메인별 최적 청킹 가이드라인 도출, 실전 청킹 파이프라인 완성",
+          "status": "generated",
+          "key_references": [
+            "https://arxiv.org/abs/2312.10997",
+            "https://github.com/langchain-ai/rag-from-scratch"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "05-임베딩-모델-이해-텍스트를-벡터로-변환",
+      "title": "임베딩 모델 이해 — 텍스트를 벡터로 변환",
+      "description": "텍스트를 고차원 벡터 공간에 매핑하는 임베딩 모델의 원리를 학습합니다. OpenAI, Sentence Transformers 등 주요 임베딩 모델을 비교하고, 유사도 검색의 수학적 기반을 이해합니다.",
+      "sections": [
+        {
+          "id": "01-임베딩의-기본-개념-단어에서-문장까지",
+          "title": "임베딩의 기본 개념 — 단어에서 문장까지",
+          "file": "05-임베딩-모델-이해-텍스트를-벡터로-변환/01-임베딩의-기본-개념-단어에서-문장까지.md",
+          "description": "Word2Vec에서 Sentence Embedding까지의 발전 과정, 임베딩 벡터의 의미(방향=의미, 거리=유사도), 토큰화와 임베딩의 관계, 벡터 공간 시각화",
+          "status": "generated",
+          "key_references": [
+            "https://developers.openai.com/api/docs/guides/embeddings/",
+            "https://sbert.net/"
+          ]
+        },
+        {
+          "id": "02-openai-임베딩-api-활용",
+          "title": "OpenAI 임베딩 API 활용",
+          "file": "05-임베딩-모델-이해-텍스트를-벡터로-변환/02-openai-임베딩-api-활용.md",
+          "description": "text-embedding-3-small과 text-embedding-3-large 모델 비교, 차원 축소(dimensions 파라미터) 활용, 배치 임베딩 처리, 비용 최적화 전략, Python 코드 실습",
+          "status": "generated",
+          "key_references": [
+            "https://developers.openai.com/api/docs/guides/embeddings/",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "03-sentence-transformers-오픈소스-임베딩-모델",
+          "title": "Sentence Transformers — 오픈소스 임베딩 모델",
+          "file": "05-임베딩-모델-이해-텍스트를-벡터로-변환/03-sentence-transformers-오픈소스-임베딩-모델.md",
+          "description": "SBERT 아키텍처와 학습 방식, all-MiniLM-L6-v2 등 인기 모델 사용법, HuggingFace 모델 허브에서 모델 선택, 로컬 GPU/CPU 추론 설정",
+          "status": "generated",
+          "key_references": [
+            "https://sbert.net/",
+            "https://developers.openai.com/api/docs/guides/embeddings/"
+          ]
+        },
+        {
+          "id": "04-유사도-측정과-벡터-검색-원리",
+          "title": "유사도 측정과 벡터 검색 원리",
+          "file": "05-임베딩-모델-이해-텍스트를-벡터로-변환/04-유사도-측정과-벡터-검색-원리.md",
+          "description": "코사인 유사도, 유클리드 거리, 내적(dot product)의 수학적 정의와 차이, 각 측정 방법의 적합한 사용 사례, NumPy를 활용한 직접 구현과 성능 비교",
+          "status": "generated",
+          "key_references": [
+            "https://developers.openai.com/api/docs/guides/embeddings/",
+            "https://sbert.net/"
+          ]
+        },
+        {
+          "id": "05-임베딩-모델-선택과-벤치마크",
+          "title": "임베딩 모델 선택과 벤치마크",
+          "file": "05-임베딩-모델-이해-텍스트를-벡터로-변환/05-임베딩-모델-선택과-벤치마크.md",
+          "description": "MTEB 리더보드 활용법, 다국어 임베딩 모델(multilingual-e5 등), 도메인 특화 vs 범용 모델 선택 기준, 임베딩 품질 평가 방법, 비용-성능 트레이드오프 분석",
+          "status": "generated",
+          "key_references": [
+            "https://sbert.net/",
+            "https://developers.openai.com/api/docs/guides/embeddings/"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "06-벡터-데이터베이스-기초-chromadb로-시작하기",
+      "title": "벡터 데이터베이스 기초 — ChromaDB로 시작하기",
+      "description": "벡터 데이터베이스의 핵심 개념을 이해하고, 가장 진입 장벽이 낮은 ChromaDB를 활용하여 벡터 저장, 검색, 메타데이터 필터링을 실습합니다.",
+      "sections": [
+        {
+          "id": "01-벡터-데이터베이스란-왜-필요한가",
+          "title": "벡터 데이터베이스란 — 왜 필요한가",
+          "file": "06-벡터-데이터베이스-기초-chromadb로-시작하기/01-벡터-데이터베이스란-왜-필요한가.md",
+          "description": "전통적 DB와 벡터 DB의 차이, ANN(Approximate Nearest Neighbor) 검색의 필요성, 주요 인덱싱 알고리즘(HNSW, IVF) 개요, 벡터 DB 시장 현황",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/chroma-core/chroma",
+            "https://docs.pinecone.io/guides/get-started/overview"
+          ]
+        },
+        {
+          "id": "02-chromadb-시작하기-설치와-기본-사용법",
+          "title": "ChromaDB 시작하기 — 설치와 기본 사용법",
+          "file": "06-벡터-데이터베이스-기초-chromadb로-시작하기/02-chromadb-시작하기-설치와-기본-사용법.md",
+          "description": "ChromaDB 설치(pip install chromadb), Client 생성(ephemeral, persistent), Collection CRUD, 문서 추가(add)와 쿼리(query) 기본 사용법",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/chroma-core/chroma",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "03-chromadb-메타데이터와-필터링",
+          "title": "ChromaDB 메타데이터와 필터링",
+          "file": "06-벡터-데이터베이스-기초-chromadb로-시작하기/03-chromadb-메타데이터와-필터링.md",
+          "description": "메타데이터 스키마 설계, where 필터($eq, $ne, $gt, $in 등), where_document 필터, 메타데이터 필터링과 벡터 검색의 결합, 실전 필터링 패턴",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/chroma-core/chroma",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "04-chromadb-커스텀-임베딩과-영속성",
+          "title": "ChromaDB 커스텀 임베딩과 영속성",
+          "file": "06-벡터-데이터베이스-기초-chromadb로-시작하기/04-chromadb-커스텀-임베딩과-영속성.md",
+          "description": "기본 임베딩 함수 vs 커스텀 임베딩 함수 연결, OpenAI/SentenceTransformer 임베딩 통합, 데이터 영속화(PersistentClient) 설정, 컬렉션 백업과 복원",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/chroma-core/chroma",
+            "https://developers.openai.com/api/docs/guides/embeddings/"
+          ]
+        },
+        {
+          "id": "05-langchain-chromadb-통합-실습",
+          "title": "LangChain × ChromaDB 통합 실습",
+          "file": "06-벡터-데이터베이스-기초-chromadb로-시작하기/05-langchain-chromadb-통합-실습.md",
+          "description": "LangChain Chroma 벡터스토어 래퍼 사용법, from_documents()로 인덱스 생성, as_retriever()로 검색기 변환, 유사도 검색 vs MMR 검색 비교",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/chroma-core/chroma",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "07-벡터-데이터베이스-심화-faiss-pinecone-qdrant-비교",
+      "title": "벡터 데이터베이스 심화 — FAISS, Pinecone, Qdrant 비교",
+      "description": "FAISS, Pinecone, Qdrant 등 주요 벡터 데이터베이스의 특성을 비교하고, 각각의 설치/설정/쿼리 방법을 실습합니다. 프로젝트 요구사항에 맞는 최적의 벡터 DB를 선택하는 기준을 제시합니다.",
+      "sections": [
+        {
+          "id": "01-faiss-대규모-벡터-검색의-표준",
+          "title": "FAISS — 대규모 벡터 검색의 표준",
+          "file": "07-벡터-데이터베이스-심화-faiss-pinecone-qdrant-비교/01-faiss-대규모-벡터-검색의-표준.md",
+          "description": "FAISS 설치와 기본 사용법, IndexFlatL2 vs IndexIVFFlat vs IndexHNSW 비교, 인덱스 학습(train)과 검색(search), GPU 가속 활용, 백만 규모 벡터 처리",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/facebookresearch/faiss",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "02-pinecone-관리형-벡터-데이터베이스",
+          "title": "Pinecone — 관리형 벡터 데이터베이스",
+          "file": "07-벡터-데이터베이스-심화-faiss-pinecone-qdrant-비교/02-pinecone-관리형-벡터-데이터베이스.md",
+          "description": "Pinecone 계정 생성과 API 키 설정, 인덱스 생성(dimension, metric, spec), Upsert/Query/Delete 연산, 네임스페이스 활용, Pinecone Inference(임베딩/리랭킹 통합)",
+          "status": "generated",
+          "key_references": [
+            "https://docs.pinecone.io/guides/get-started/overview",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "03-qdrant-고성능-하이브리드-검색-엔진",
+          "title": "Qdrant — 고성능 하이브리드 검색 엔진",
+          "file": "07-벡터-데이터베이스-심화-faiss-pinecone-qdrant-비교/03-qdrant-고성능-하이브리드-검색-엔진.md",
+          "description": "Qdrant 설치(Docker, 로컬, 클라우드), 컬렉션 생성과 포인트 업로드, 벡터 검색과 페이로드 필터링, FastEmbed 통합, 비동기 Python 클라이언트 활용",
+          "status": "generated",
+          "key_references": [
+            "https://python-client.qdrant.tech/",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "04-벡터-db-성능-비교와-벤치마크",
+          "title": "벡터 DB 성능 비교와 벤치마크",
+          "file": "07-벡터-데이터베이스-심화-faiss-pinecone-qdrant-비교/04-벡터-db-성능-비교와-벤치마크.md",
+          "description": "검색 속도, 정확도(Recall@k), 메모리 사용량, 확장성 비교, ann-benchmarks 활용법, 동일 데이터셋으로 ChromaDB/FAISS/Qdrant 성능 비교 실습",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/facebookresearch/faiss",
+            "https://python-client.qdrant.tech/"
+          ]
+        },
+        {
+          "id": "05-벡터-db-선택-가이드-의사결정-프레임워크",
+          "title": "벡터 DB 선택 가이드 — 의사결정 프레임워크",
+          "file": "07-벡터-데이터베이스-심화-faiss-pinecone-qdrant-비교/05-벡터-db-선택-가이드-의사결정-프레임워크.md",
+          "description": "로컬 vs 관리형, 오픈소스 vs 상용, 규모별(소규모 PoC~대규모 프로덕션) 선택 기준, 비용 분석, 마이그레이션 전략, 벡터 DB 선택 의사결정 플로우차트",
+          "status": "generated",
+          "key_references": [
+            "https://docs.pinecone.io/guides/get-started/overview",
+            "https://github.com/facebookresearch/faiss",
+            "https://python-client.qdrant.tech/"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기",
+      "title": "기본 RAG 파이프라인 구축 — LangChain으로 첫 RAG 앱 만들기",
+      "description": "LangChain v1을 사용하여 문서 로딩부터 검색 증강 응답 생성까지 전체 RAG 파이프라인을 처음부터 끝까지 구축합니다. LCEL(LangChain Expression Language)을 활용한 체인 조합 방법을 익힙니다.",
+      "sections": [
+        {
+          "id": "01-langchain-v1-핵심-개념과-설정",
+          "title": "LangChain v1 핵심 개념과 설정",
+          "file": "08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/01-langchain-v1-핵심-개념과-설정.md",
+          "description": "LangChain v1 설치와 패키지 구조(langchain-core, langchain-community, langchain-openai 등), ChatModel과 LLM의 차이, Pydantic v2 기반 스키마, v0.3→v1 마이그레이션 주요 변경점",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langchain/rag",
+            "https://docs.langchain.com/oss/python/migrate/langchain-v1"
+          ]
+        },
+        {
+          "id": "02-lcel-langchain-expression-language-마스터하기",
+          "title": "LCEL — LangChain Expression Language 마스터하기",
+          "file": "08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/02-lcel-langchain-expression-language-마스터하기.md",
+          "description": "LCEL 파이프 연산자(|)의 원리, Runnable 인터페이스(invoke, batch, stream), RunnablePassthrough와 RunnableLambda, 체인 조합 패턴, 디버깅과 스트리밍",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langchain/rag",
+            "https://github.com/langchain-ai/rag-from-scratch"
+          ]
+        },
+        {
+          "id": "03-인덱싱-파이프라인-구축-문서에서-벡터-db까지",
+          "title": "인덱싱 파이프라인 구축 — 문서에서 벡터 DB까지",
+          "file": "08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/03-인덱싱-파이프라인-구축-문서에서-벡터-db까지.md",
+          "description": "문서 로딩→텍스트 분할→임베딩→벡터 저장의 전체 파이프라인 구현, LangChain Indexing API 활용, 중복 방지와 증분 인덱싱",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langchain/rag",
+            "https://github.com/langchain-ai/rag-from-scratch"
+          ]
+        },
+        {
+          "id": "04-검색-체인-구축-retriever와-프롬프트-설계",
+          "title": "검색 체인 구축 — Retriever와 프롬프트 설계",
+          "file": "08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/04-검색-체인-구축-retriever와-프롬프트-설계.md",
+          "description": "VectorStoreRetriever 설정(search_type, k), RAG 프롬프트 템플릿 설계, 검색된 문서를 컨텍스트로 포맷팅, stuff/map_reduce/refine 전략 비교",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langchain/rag",
+            "https://github.com/langchain-ai/rag-from-scratch"
+          ]
+        },
+        {
+          "id": "05-완성된-rag-체인-질문-응답-시스템-구현",
+          "title": "완성된 RAG 체인 — 질문 응답 시스템 구현",
+          "file": "08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/05-완성된-rag-체인-질문-응답-시스템-구현.md",
+          "description": "create_retrieval_chain 또는 LCEL로 전체 RAG 체인 조합, 대화형 RAG(ConversationalRetrievalChain) 구현, 채팅 히스토리 관리, 출처 표시(source attribution)",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langchain/rag",
+            "https://github.com/langchain-ai/rag-from-scratch"
+          ]
+        },
+        {
+          "id": "06-rag-앱-스트리밍과-에러-처리",
+          "title": "RAG 앱 스트리밍과 에러 처리",
+          "file": "08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/06-rag-앱-스트리밍과-에러-처리.md",
+          "description": "응답 스트리밍 구현(astream, astream_events), LLM 호출 에러 처리와 재시도(with_retry), 검색 실패 시 폴백 전략, 토큰 사용량 추적과 비용 모니터링",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langchain/rag",
+            "https://docs.langchain.com/oss/python/migrate/langchain-v1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "09-llamaindex로-rag-구축-대안-프레임워크-활용",
+      "title": "LlamaIndex로 RAG 구축 — 대안 프레임워크 활용",
+      "description": "LlamaIndex의 핵심 추상화(Document, Node, Index, QueryEngine)를 학습하고, LangChain과 다른 접근 방식으로 RAG 파이프라인을 구축합니다. 두 프레임워크의 장단점을 비교합니다.",
+      "sections": [
+        {
+          "id": "01-llamaindex-핵심-개념-document-node-index",
+          "title": "LlamaIndex 핵심 개념 — Document, Node, Index",
+          "file": "09-llamaindex로-rag-구축-대안-프레임워크-활용/01-llamaindex-핵심-개념-document-node-index.md",
+          "description": "LlamaIndex 설치와 기본 설정, Document와 Node의 관계, NodeParser의 역할, 자동 메타데이터 추출, LlamaIndex vs LangChain 철학 비교",
+          "status": "generated",
+          "key_references": [
+            "https://developers.llamaindex.ai/python/framework/understanding/rag/",
+            "https://developers.llamaindex.ai/python/framework/getting_started/concepts/"
+          ]
+        },
+        {
+          "id": "02-vectorstoreindex-인덱싱과-검색",
+          "title": "VectorStoreIndex — 인덱싱과 검색",
+          "file": "09-llamaindex로-rag-구축-대안-프레임워크-활용/02-vectorstoreindex-인덱싱과-검색.md",
+          "description": "VectorStoreIndex 생성과 쿼리, StorageContext를 통한 벡터 DB 연동, 인덱스 영속화(persist)와 로드, SimpleDirectoryReader를 활용한 빠른 프로토타이핑",
+          "status": "generated",
+          "key_references": [
+            "https://developers.llamaindex.ai/python/framework/understanding/rag/",
+            "https://developers.llamaindex.ai/python/framework/getting_started/concepts/"
+          ]
+        },
+        {
+          "id": "03-queryengine과-응답-합성",
+          "title": "QueryEngine과 응답 합성",
+          "file": "09-llamaindex로-rag-구축-대안-프레임워크-활용/03-queryengine과-응답-합성.md",
+          "description": "QueryEngine 인터페이스와 커스터마이징, ResponseSynthesizer 전략(compact, tree_summarize, refine), 프롬프트 템플릿 커스터마이징, 출처 노드 접근과 활용",
+          "status": "generated",
+          "key_references": [
+            "https://developers.llamaindex.ai/python/framework/understanding/rag/",
+            "https://developers.llamaindex.ai/python/framework/getting_started/concepts/"
+          ]
+        },
+        {
+          "id": "04-chatengine-대화형-rag-구현",
+          "title": "ChatEngine — 대화형 RAG 구현",
+          "file": "09-llamaindex로-rag-구축-대안-프레임워크-활용/04-chatengine-대화형-rag-구현.md",
+          "description": "ChatEngine 모드(condense_question, context, condense_plus_context), 채팅 히스토리 관리, 스트리밍 응답 구현, 멀티턴 대화에서의 컨텍스트 유지 전략",
+          "status": "generated",
+          "key_references": [
+            "https://developers.llamaindex.ai/python/framework/understanding/rag/",
+            "https://developers.llamaindex.ai/python/framework/getting_started/concepts/"
+          ]
+        },
+        {
+          "id": "05-langchain-vs-llamaindex-프레임워크-선택-가이드",
+          "title": "LangChain vs LlamaIndex — 프레임워크 선택 가이드",
+          "file": "09-llamaindex로-rag-구축-대안-프레임워크-활용/05-langchain-vs-llamaindex-프레임워크-선택-가이드.md",
+          "description": "동일 요구사항을 LangChain과 LlamaIndex로 각각 구현하여 비교, 코드 복잡도/유연성/생태계/성능 비교, 하이브리드 사용 패턴(LlamaIndex 인덱스 + LangChain 체인), 프로젝트별 선택 기준",
+          "status": "generated",
+          "key_references": [
+            "https://developers.llamaindex.ai/python/framework/understanding/rag/",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10-검색-품질-향상-유사도-검색과-메타데이터-필터링",
+      "title": "검색 품질 향상 — 유사도 검색과 메타데이터 필터링",
+      "description": "RAG 시스템의 핵심인 검색 품질을 높이는 다양한 기법을 학습합니다. MMR(Maximal Marginal Relevance), 유사도 임계값 필터링, 메타데이터 기반 필터링, 다중 인덱스 검색 전략을 실습합니다.",
+      "sections": [
+        {
+          "id": "01-유사도-검색-심화-top-k와-임계값-최적화",
+          "title": "유사도 검색 심화 — top-k와 임계값 최적화",
+          "file": "10-검색-품질-향상-유사도-검색과-메타데이터-필터링/01-유사도-검색-심화-top-k와-임계값-최적화.md",
+          "description": "top-k 파라미터의 영향(precision vs recall 트레이드오프), similarity_score_threshold 활용, 거리 메트릭별 검색 특성 비교, 적절한 k값 결정 방법론",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/facebookresearch/faiss",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "02-mmr-관련성과-다양성의-균형",
+          "title": "MMR — 관련성과 다양성의 균형",
+          "file": "10-검색-품질-향상-유사도-검색과-메타데이터-필터링/02-mmr-관련성과-다양성의-균형.md",
+          "description": "Maximal Marginal Relevance 알고리즘의 원리, lambda_mult 파라미터 튜닝, MMR vs 일반 유사도 검색 결과 비교, 중복 정보 제거를 통한 답변 품질 향상",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langchain/rag",
+            "https://docs.pinecone.io/guides/get-started/overview"
+          ]
+        },
+        {
+          "id": "03-메타데이터-필터링-구조화된-검색",
+          "title": "메타데이터 필터링 — 구조화된 검색",
+          "file": "10-검색-품질-향상-유사도-검색과-메타데이터-필터링/03-메타데이터-필터링-구조화된-검색.md",
+          "description": "효과적인 메타데이터 스키마 설계(출처, 날짜, 카테고리, 작성자), 벡터 DB별 필터 문법 비교, 메타데이터 필터와 벡터 검색의 결합 전략, Self-Query Retriever 활용",
+          "status": "generated",
+          "key_references": [
+            "https://docs.pinecone.io/guides/get-started/overview",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "04-다중-벡터-검색과-multivector-retriever",
+          "title": "다중 벡터 검색과 MultiVector Retriever",
+          "file": "10-검색-품질-향상-유사도-검색과-메타데이터-필터링/04-다중-벡터-검색과-multivector-retriever.md",
+          "description": "하나의 문서에 여러 임베딩 생성(요약, 가설 질문, 원문), MultiVectorRetriever 구현, ParentDocumentRetriever로 작은 청크 검색→큰 청크 반환, 검색 정밀도와 컨텍스트 풍부함 동시 확보",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langchain/rag",
+            "https://github.com/langchain-ai/rag-from-scratch"
+          ]
+        },
+        {
+          "id": "05-앙상블-검색과-retriever-조합",
+          "title": "앙상블 검색과 Retriever 조합",
+          "file": "10-검색-품질-향상-유사도-검색과-메타데이터-필터링/05-앙상블-검색과-retriever-조합.md",
+          "description": "EnsembleRetriever로 여러 검색기 결과 통합, 가중치 기반 결과 합산, ContextualCompressionRetriever로 검색 결과 압축, 검색 파이프라인 최적화 실습",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langchain/rag",
+            "https://github.com/langchain-ai/rag-from-scratch"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "11-하이브리드-검색-bm25-키워드-검색과-벡터-검색-결합",
+      "title": "하이브리드 검색 — BM25 키워드 검색과 벡터 검색 결합",
+      "description": "벡터 검색만으로는 놓칠 수 있는 키워드 매칭의 장점을 살려, BM25 키워드 검색과 벡터 유사도 검색을 결합하는 하이브리드 검색 전략을 학습합니다.",
+      "sections": [
+        {
+          "id": "01-bm25-키워드-검색-전통적-정보-검색의-힘",
+          "title": "BM25 키워드 검색 — 전통적 정보 검색의 힘",
+          "file": "11-하이브리드-검색-bm25-키워드-검색과-벡터-검색-결합/01-bm25-키워드-검색-전통적-정보-검색의-힘.md",
+          "description": "TF-IDF와 BM25 알고리즘의 원리, rank-bm25 라이브러리 활용, BM25Retriever 구현, 키워드 검색이 벡터 검색보다 우수한 사례(정확한 용어, 코드, 고유명사)",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langchain/rag",
+            "https://github.com/langchain-ai/rag-from-scratch"
+          ]
+        },
+        {
+          "id": "02-하이브리드-검색-구현-두-세계의-장점-결합",
+          "title": "하이브리드 검색 구현 — 두 세계의 장점 결합",
+          "file": "11-하이브리드-검색-bm25-키워드-검색과-벡터-검색-결합/02-하이브리드-검색-구현-두-세계의-장점-결합.md",
+          "description": "EnsembleRetriever로 BM25 + 벡터 검색 결합, 가중치(weights) 파라미터 튜닝, Reciprocal Rank Fusion(RRF)의 원리와 구현, 검색 결과 정규화",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langchain/rag",
+            "https://github.com/langchain-ai/rag-from-scratch"
+          ]
+        },
+        {
+          "id": "03-벡터-db-네이티브-하이브리드-검색",
+          "title": "벡터 DB 네이티브 하이브리드 검색",
+          "file": "11-하이브리드-검색-bm25-키워드-검색과-벡터-검색-결합/03-벡터-db-네이티브-하이브리드-검색.md",
+          "description": "Qdrant의 sparse-dense 하이브리드 검색, Pinecone의 하이브리드 검색(sparse_values), Weaviate의 네이티브 하이브리드 검색, 프레임워크 레벨 vs DB 레벨 하이브리드 검색 비교",
+          "status": "generated",
+          "key_references": [
+            "https://python-client.qdrant.tech/",
+            "https://docs.pinecone.io/guides/get-started/overview"
+          ]
+        },
+        {
+          "id": "04-하이브리드-검색-최적화와-평가",
+          "title": "하이브리드 검색 최적화와 평가",
+          "file": "11-하이브리드-검색-bm25-키워드-검색과-벡터-검색-결합/04-하이브리드-검색-최적화와-평가.md",
+          "description": "키워드-벡터 가중치 최적화 실험, 도메인별 최적 가중치 탐색, 하이브리드 검색 vs 단일 검색 A/B 비교, 검색 품질 메트릭(Precision@k, Recall@k, MRR) 측정",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langchain/rag",
+            "https://python-client.qdrant.tech/"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12-리랭킹으로-검색-정확도-높이기-cohere-rerank-활용",
+      "title": "리랭킹으로 검색 정확도 높이기 — Cohere Rerank 활용",
+      "description": "초기 검색 결과를 쿼리와의 실제 관련성에 따라 재정렬하는 리랭킹(reranking) 기법을 학습합니다. Cohere Rerank API와 오픈소스 Cross-Encoder 모델을 활용한 실전 리랭킹 파이프라인을 구축합니다.",
+      "sections": [
+        {
+          "id": "01-리랭킹의-원리-왜-초기-검색으로는-부족한가",
+          "title": "리랭킹의 원리 — 왜 초기 검색으로는 부족한가",
+          "file": "12-리랭킹으로-검색-정확도-높이기-cohere-rerank-활용/01-리랭킹의-원리-왜-초기-검색으로는-부족한가.md",
+          "description": "2단계 검색(retrieve-then-rerank) 패턴, Bi-Encoder(임베딩 모델)와 Cross-Encoder(리랭커)의 구조적 차이, 리랭킹이 검색 품질을 개선하는 원리, 실제 검색 결과 비교 데모",
+          "status": "generated",
+          "key_references": [
+            "https://docs.cohere.com/docs/rerank-overview",
+            "https://sbert.net/"
+          ]
+        },
+        {
+          "id": "02-cohere-rerank-api-활용",
+          "title": "Cohere Rerank API 활용",
+          "file": "12-리랭킹으로-검색-정확도-높이기-cohere-rerank-활용/02-cohere-rerank-api-활용.md",
+          "description": "Cohere Rerank 3.5 모델 소개, API 호출과 응답 해석(relevance_score), LangChain CohereRerank 통합, top_n과 relevance_threshold 설정, 비용 고려사항",
+          "status": "generated",
+          "key_references": [
+            "https://docs.cohere.com/docs/rerank-overview",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "03-오픈소스-cross-encoder-리랭킹",
+          "title": "오픈소스 Cross-Encoder 리랭킹",
+          "file": "12-리랭킹으로-검색-정확도-높이기-cohere-rerank-활용/03-오픈소스-cross-encoder-리랭킹.md",
+          "description": "SentenceTransformers CrossEncoder 모델 사용법, ms-marco-MiniLM-L-6-v2 등 인기 모델, 로컬에서 리랭킹 실행, Cohere vs 오픈소스 성능/비용/지연시간 비교",
+          "status": "generated",
+          "key_references": [
+            "https://sbert.net/",
+            "https://docs.cohere.com/docs/rerank-overview"
+          ]
+        },
+        {
+          "id": "04-리랭킹-파이프라인-최적화-실전-통합",
+          "title": "리랭킹 파이프라인 최적화 — 실전 통합",
+          "file": "12-리랭킹으로-검색-정확도-높이기-cohere-rerank-활용/04-리랭킹-파이프라인-최적화-실전-통합.md",
+          "description": "검색(top-k=20) → 리랭킹(top_n=5) 파이프라인 구축, ContextualCompressionRetriever와 리랭커 결합, 리랭킹 캐싱 전략, 리랭킹 전후 검색 품질 메트릭 비교 실험",
+          "status": "generated",
+          "key_references": [
+            "https://docs.cohere.com/docs/rerank-overview",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13-쿼리-변환-기법-multi-query-hyde-step-back-prompting",
+      "title": "쿼리 변환 기법 — Multi-Query, HyDE, Step-Back Prompting",
+      "description": "사용자의 원본 쿼리를 변환하여 검색 품질을 높이는 Pre-retrieval 최적화 기법을 학습합니다. Multi-Query, HyDE(Hypothetical Document Embeddings), Step-Back Prompting 등 핵심 기법을 구현합니다.",
+      "sections": [
+        {
+          "id": "01-쿼리-변환이-필요한-이유와-전략-개관",
+          "title": "쿼리 변환이 필요한 이유와 전략 개관",
+          "file": "13-쿼리-변환-기법-multi-query-hyde-step-back-prompting/01-쿼리-변환이-필요한-이유와-전략-개관.md",
+          "description": "사용자 쿼리의 문제점(모호성, 구어체, 복합 질문), 쿼리 변환 전략 분류(재작성, 분해, 확장, 가설 생성), 각 전략의 적합한 사용 시나리오, 쿼리 변환 파이프라인 구조",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/langchain-ai/rag-from-scratch",
+            "https://arxiv.org/abs/2312.10997"
+          ]
+        },
+        {
+          "id": "02-multi-query-retriever-다각도-검색",
+          "title": "Multi-Query Retriever — 다각도 검색",
+          "file": "13-쿼리-변환-기법-multi-query-hyde-step-back-prompting/02-multi-query-retriever-다각도-검색.md",
+          "description": "하나의 질문에서 여러 관점의 쿼리 자동 생성, MultiQueryRetriever 구현, LLM 프롬프트 설계, 중복 제거와 결과 병합, 검색 커버리지 향상 효과 측정",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/langchain-ai/rag-from-scratch",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "03-hyde-가설-문서-임베딩",
+          "title": "HyDE — 가설 문서 임베딩",
+          "file": "13-쿼리-변환-기법-multi-query-hyde-step-back-prompting/03-hyde-가설-문서-임베딩.md",
+          "description": "HyDE(Hypothetical Document Embeddings)의 핵심 아이디어, LLM으로 가설 답변 생성 후 임베딩, 쿼리 임베딩 vs 가설 문서 임베딩의 검색 품질 차이, HyDE 구현과 한계점",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/langchain-ai/rag-from-scratch",
+            "https://arxiv.org/abs/2312.10997"
+          ]
+        },
+        {
+          "id": "04-step-back-prompting과-쿼리-분해",
+          "title": "Step-Back Prompting과 쿼리 분해",
+          "file": "13-쿼리-변환-기법-multi-query-hyde-step-back-prompting/04-step-back-prompting과-쿼리-분해.md",
+          "description": "Step-Back Prompting으로 구체적 질문을 일반화, 복합 질문 분해(decomposition) 전략, Sub-Question Query Engine 구현, 분해된 질문의 답변 통합 방법",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/langchain-ai/rag-from-scratch",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "05-쿼리-라우팅-적절한-검색-전략-자동-선택",
+          "title": "쿼리 라우팅 — 적절한 검색 전략 자동 선택",
+          "file": "13-쿼리-변환-기법-multi-query-hyde-step-back-prompting/05-쿼리-라우팅-적절한-검색-전략-자동-선택.md",
+          "description": "쿼리 유형 분류(사실 질문, 요약 요청, 비교 질문 등), LLM 기반 쿼리 라우터 구현, 쿼리 유형별 최적 검색 전략 매핑, 동적 검색 파이프라인 구축",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/langchain-ai/rag-from-scratch",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "14-고급-청킹과-인덱싱-raptor-시멘틱-청킹-부모-자식-청킹",
+      "title": "고급 청킹과 인덱싱 — RAPTOR, 시멘틱 청킹, 부모-자식 청킹",
+      "description": "기본 청킹을 넘어선 고급 인덱싱 전략을 학습합니다. 계층적 요약(RAPTOR), 부모-자식 청킹, 시멘틱 청킹 등 최신 기법을 구현하고, 검색 품질에 미치는 영향을 실험합니다.",
+      "sections": [
+        {
+          "id": "01-부모-자식-청킹-작게-검색하고-크게-반환하기",
+          "title": "부모-자식 청킹 — 작게 검색하고 크게 반환하기",
+          "file": "14-고급-청킹과-인덱싱-raptor-시멘틱-청킹-부모-자식-청킹/01-부모-자식-청킹-작게-검색하고-크게-반환하기.md",
+          "description": "작은 청크로 정밀 검색, 큰 청크(부모)로 풍부한 컨텍스트 제공, ParentDocumentRetriever 구현, InMemoryStore와 벡터 DB의 이중 저장 전략, 청크 크기 조합 최적화",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langchain/rag",
+            "https://github.com/langchain-ai/rag-from-scratch"
+          ]
+        },
+        {
+          "id": "02-raptor-계층적-요약을-통한-트리-인덱싱",
+          "title": "RAPTOR — 계층적 요약을 통한 트리 인덱싱",
+          "file": "14-고급-청킹과-인덱싱-raptor-시멘틱-청킹-부모-자식-청킹/02-raptor-계층적-요약을-통한-트리-인덱싱.md",
+          "description": "RAPTOR(Recursive Abstractive Processing for Tree-Organized Retrieval) 논문 핵심 아이디어, 리프 청크→클러스터링→요약→트리 구축 과정, 다수준 검색(leaf+summary) 전략, Python 구현",
+          "status": "generated",
+          "key_references": [
+            "https://arxiv.org/abs/2312.10997",
+            "https://github.com/langchain-ai/rag-from-scratch"
+          ]
+        },
+        {
+          "id": "03-시멘틱-청킹-심화-의미-경계-감지-알고리즘",
+          "title": "시멘틱 청킹 심화 — 의미 경계 감지 알고리즘",
+          "file": "14-고급-청킹과-인덱싱-raptor-시멘틱-청킹-부모-자식-청킹/03-시멘틱-청킹-심화-의미-경계-감지-알고리즘.md",
+          "description": "임베딩 유사도 기반 시멘틱 청킹의 구체적 알고리즘, percentile/standard_deviation/interquartile 분할 기준 비교, 시멘틱 청킹의 장단점과 비용 분석, 대용량 문서에서의 성능 최적화",
+          "status": "generated",
+          "key_references": [
+            "https://arxiv.org/abs/2312.10997",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "04-가설-질문-인덱싱과-요약-인덱싱",
+          "title": "가설 질문 인덱싱과 요약 인덱싱",
+          "file": "14-고급-청킹과-인덱싱-raptor-시멘틱-청킹-부모-자식-청킹/04-가설-질문-인덱싱과-요약-인덱싱.md",
+          "description": "각 청크에 대해 LLM이 가설 질문 생성→질문 임베딩으로 인덱싱, 문서 요약 임베딩을 추가 인덱스로 활용, MultiVectorRetriever 통합, 인덱싱 비용과 검색 품질 트레이드오프",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/langchain-ai/rag-from-scratch",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "05-인덱싱-전략-비교-실험",
+          "title": "인덱싱 전략 비교 실험",
+          "file": "14-고급-청킹과-인덱싱-raptor-시멘틱-청킹-부모-자식-청킹/05-인덱싱-전략-비교-실험.md",
+          "description": "동일 데이터셋에 기본/부모-자식/RAPTOR/시멘틱/가설 질문 인덱싱 적용, 검색 품질(Recall@k, MRR) 비교, 인덱싱 시간과 저장 용량 비교, 도메인별 최적 전략 도출",
+          "status": "generated",
+          "key_references": [
+            "https://arxiv.org/abs/2312.10997",
+            "https://github.com/langchain-ai/rag-from-scratch"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "15-컨텍스추얼-rag-anthropic의-컨텍스트-기반-검색-방법",
+      "title": "컨텍스추얼 RAG — Anthropic의 컨텍스트 기반 검색 방법",
+      "description": "Anthropic이 제안한 Contextual RAG 방법론을 학습합니다. 각 청크에 문서 전체 맥락을 추가하는 컨텍스추얼 임베딩과 BM25 하이브리드 검색을 결합한 고급 RAG 파이프라인을 구축합니다.",
+      "sections": [
+        {
+          "id": "01-contextual-rag-소개-청크에-맥락을-더하다",
+          "title": "Contextual RAG 소개 — 청크에 맥락을 더하다",
+          "file": "15-컨텍스추얼-rag-anthropic의-컨텍스트-기반-검색-방법/01-contextual-rag-소개-청크에-맥락을-더하다.md",
+          "description": "기존 청킹의 맥락 손실 문제, Anthropic의 Contextual Retrieval 제안 배경, 각 청크에 문서 전체 맥락을 설명하는 접두사 추가, 컨텍스추얼 청크의 예시와 효과",
+          "status": "generated",
+          "key_references": [
+            "https://docs.together.ai/docs/how-to-implement-contextual-rag-from-anthropic",
+            "https://arxiv.org/abs/2312.10997"
+          ]
+        },
+        {
+          "id": "02-컨텍스추얼-청크-생성-파이프라인-구현",
+          "title": "컨텍스추얼 청크 생성 파이프라인 구현",
+          "file": "15-컨텍스추얼-rag-anthropic의-컨텍스트-기반-검색-방법/02-컨텍스추얼-청크-생성-파이프라인-구현.md",
+          "description": "LLM으로 각 청크의 맥락 설명 생성하는 프롬프트 설계, 배치 처리와 비용 최적화(프롬프트 캐싱 활용), 생성된 컨텍스트의 품질 검증, Python 코드 실습",
+          "status": "generated",
+          "key_references": [
+            "https://docs.together.ai/docs/how-to-implement-contextual-rag-from-anthropic",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "03-컨텍스추얼-임베딩-bm25-하이브리드-검색",
+          "title": "컨텍스추얼 임베딩 + BM25 하이브리드 검색",
+          "file": "15-컨텍스추얼-rag-anthropic의-컨텍스트-기반-검색-방법/03-컨텍스추얼-임베딩-bm25-하이브리드-검색.md",
+          "description": "컨텍스추얼 청크의 임베딩 생성과 인덱싱, BM25 인덱스 병렬 구축, 벡터 검색과 BM25 검색 결과의 RRF 결합, 리랭킹 추가로 검색 정확도 극대화",
+          "status": "generated",
+          "key_references": [
+            "https://docs.together.ai/docs/how-to-implement-contextual-rag-from-anthropic",
+            "https://docs.cohere.com/docs/rerank-overview"
+          ]
+        },
+        {
+          "id": "04-contextual-rag-성능-평가와-비용-분석",
+          "title": "Contextual RAG 성능 평가와 비용 분석",
+          "file": "15-컨텍스추얼-rag-anthropic의-컨텍스트-기반-검색-방법/04-contextual-rag-성능-평가와-비용-분석.md",
+          "description": "기본 RAG vs Contextual RAG 검색 품질 비교(동일 QA 데이터셋), 컨텍스트 생성 비용 분석(LLM 호출 비용, 프롬프트 캐싱 절감), 대규모 문서에서의 실용성 평가, 적용 적합 시나리오 판단",
+          "status": "generated",
+          "key_references": [
+            "https://docs.together.ai/docs/how-to-implement-contextual-rag-from-anthropic",
+            "https://docs.ragas.io/"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16-에이전틱-rag-langgraph로-동적-검색-에이전트-구축",
+      "title": "에이전틱 RAG — LangGraph로 동적 검색 에이전트 구축",
+      "description": "정적인 검색-생성 파이프라인을 넘어, LLM이 검색 도구를 동적으로 호출하고 결과를 평가하여 추가 검색 여부를 결정하는 에이전틱 RAG 시스템을 LangGraph로 구축합니다.",
+      "sections": [
+        {
+          "id": "01-에이전틱-rag란-왜-에이전트가-필요한가",
+          "title": "에이전틱 RAG란 — 왜 에이전트가 필요한가",
+          "file": "16-에이전틱-rag-langgraph로-동적-검색-에이전트-구축/01-에이전틱-rag란-왜-에이전트가-필요한가.md",
+          "description": "정적 RAG의 한계(항상 검색, 단일 검색, 검색 품질 무관하게 생성), 에이전틱 RAG의 핵심 아이디어(검색 필요성 판단, 다중 검색, 결과 평가), Corrective RAG와 Self-RAG 개념",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langgraph/agentic-rag",
+            "https://arxiv.org/abs/2312.10997"
+          ]
+        },
+        {
+          "id": "02-langgraph-기초-상태-그래프-프로그래밍",
+          "title": "LangGraph 기초 — 상태 그래프 프로그래밍",
+          "file": "16-에이전틱-rag-langgraph로-동적-검색-에이전트-구축/02-langgraph-기초-상태-그래프-프로그래밍.md",
+          "description": "LangGraph 설치와 핵심 개념, StateGraph 정의와 상태 스키마(TypedDict), 노드(함수)와 엣지(연결) 추가, 조건부 엣지로 분기 제어, 간단한 그래프 실행과 시각화",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langgraph/agentic-rag",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "03-검색-도구를-활용하는-rag-에이전트-구축",
+          "title": "검색 도구를 활용하는 RAG 에이전트 구축",
+          "file": "16-에이전틱-rag-langgraph로-동적-검색-에이전트-구축/03-검색-도구를-활용하는-rag-에이전트-구축.md",
+          "description": "벡터 스토어를 Tool로 래핑, ToolNode 구현, LLM의 tool_calls 기반 동적 검색, 검색 필요 여부를 LLM이 판단하는 라우팅 로직, 에이전트 실행 흐름 추적",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langgraph/agentic-rag",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "04-corrective-rag-검색-결과-평가와-재검색",
+          "title": "Corrective RAG — 검색 결과 평가와 재검색",
+          "file": "16-에이전틱-rag-langgraph로-동적-검색-에이전트-구축/04-corrective-rag-검색-결과-평가와-재검색.md",
+          "description": "검색 결과의 관련성을 LLM이 평가(grading), 관련성 낮은 경우 쿼리 변환 후 재검색, 웹 검색 폴백 전략, Corrective RAG 전체 그래프 구현",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langgraph/agentic-rag",
+            "https://github.com/langchain-ai/rag-from-scratch"
+          ]
+        },
+        {
+          "id": "05-self-rag-생성-결과까지-자체-평가",
+          "title": "Self-RAG — 생성 결과까지 자체 평가",
+          "file": "16-에이전틱-rag-langgraph로-동적-검색-에이전트-구축/05-self-rag-생성-결과까지-자체-평가.md",
+          "description": "검색 필요성 판단→검색→관련성 평가→생성→답변 품질 평가의 전체 루프, 할루시네이션 감지와 재생성, 최대 반복 횟수 제한, Self-RAG 그래프 구현과 평가",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langgraph/agentic-rag",
+            "https://github.com/langchain-ai/rag-from-scratch"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "17-rag-평가-ragas-프레임워크로-시스템-성능-측정",
+      "title": "RAG 평가 — RAGAS 프레임워크로 시스템 성능 측정",
+      "description": "RAG 시스템의 검색 품질과 생성 품질을 체계적으로 평가하는 방법을 학습합니다. RAGAS 프레임워크의 핵심 메트릭(Faithfulness, Answer Relevancy, Context Precision/Recall)을 이해하고 적용합니다.",
+      "sections": [
+        {
+          "id": "01-rag-평가란-무엇을-어떻게-측정할-것인가",
+          "title": "RAG 평가란 — 무엇을 어떻게 측정할 것인가",
+          "file": "17-rag-평가-ragas-프레임워크로-시스템-성능-측정/01-rag-평가란-무엇을-어떻게-측정할-것인가.md",
+          "description": "RAG 평가의 세 축(Retrieval, Generation, End-to-End), 참조 기반 vs 참조 없는 평가, LLM-as-Judge 패러다임, 평가 데이터셋(question, ground_truth, contexts, answer) 구조",
+          "status": "generated",
+          "key_references": [
+            "https://docs.ragas.io/",
+            "https://arxiv.org/abs/2312.10997"
+          ]
+        },
+        {
+          "id": "02-ragas-핵심-메트릭-faithfulness와-answer-relevancy",
+          "title": "RAGAS 핵심 메트릭 — Faithfulness와 Answer Relevancy",
+          "file": "17-rag-평가-ragas-프레임워크로-시스템-성능-측정/02-ragas-핵심-메트릭-faithfulness와-answer-relevancy.md",
+          "description": "Faithfulness(답변이 검색 컨텍스트에 충실한가) 측정 원리, Answer Relevancy(답변이 질문에 적합한가) 측정 원리, 두 메트릭의 수학적 정의, Python 코드로 RAGAS 평가 실행",
+          "status": "generated",
+          "key_references": [
+            "https://docs.ragas.io/",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "03-ragas-검색-메트릭-context-precision과-recall",
+          "title": "RAGAS 검색 메트릭 — Context Precision과 Recall",
+          "file": "17-rag-평가-ragas-프레임워크로-시스템-성능-측정/03-ragas-검색-메트릭-context-precision과-recall.md",
+          "description": "Context Precision(검색된 문서의 정밀도) 측정, Context Recall(필요한 정보가 모두 검색되었는가) 측정, Context Entities Recall, 검색 메트릭으로 리트리버 성능 진단",
+          "status": "generated",
+          "key_references": [
+            "https://docs.ragas.io/",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "04-평가-데이터셋-구축과-자동-생성",
+          "title": "평가 데이터셋 구축과 자동 생성",
+          "file": "17-rag-평가-ragas-프레임워크로-시스템-성능-측정/04-평가-데이터셋-구축과-자동-생성.md",
+          "description": "수동 평가 데이터셋(QA 쌍) 작성 가이드, RAGAS TestsetGenerator를 활용한 자동 테스트셋 생성, 합성 데이터의 품질 검증, 도메인별 평가 데이터셋 설계 전략",
+          "status": "generated",
+          "key_references": [
+            "https://docs.ragas.io/",
+            "https://github.com/RUC-NLPIR/FlashRAG"
+          ]
+        },
+        {
+          "id": "05-자동화된-rag-평가-파이프라인-구축",
+          "title": "자동화된 RAG 평가 파이프라인 구축",
+          "file": "17-rag-평가-ragas-프레임워크로-시스템-성능-측정/05-자동화된-rag-평가-파이프라인-구축.md",
+          "description": "CI/CD에 RAG 평가 통합, 회귀 테스트로 검색/생성 품질 모니터링, 평가 결과 대시보드 구축, A/B 테스트를 통한 RAG 구성 비교, 평가 기반 지속적 개선 프로세스",
+          "status": "generated",
+          "key_references": [
+            "https://docs.ragas.io/",
+            "https://github.com/RUC-NLPIR/FlashRAG"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "18-rag-최적화와-디버깅-성능-개선-전략",
+      "title": "RAG 최적화와 디버깅 — 성능 개선 전략",
+      "description": "RAG 시스템의 검색 품질, 응답 지연시간, 비용을 체계적으로 최적화하는 전략을 학습합니다. 일반적인 실패 패턴을 진단하고, 단계별 디버깅 방법론을 적용합니다.",
+      "sections": [
+        {
+          "id": "01-rag-실패-패턴-분류와-진단",
+          "title": "RAG 실패 패턴 분류와 진단",
+          "file": "18-rag-최적화와-디버깅-성능-개선-전략/01-rag-실패-패턴-분류와-진단.md",
+          "description": "검색 실패(관련 문서 못 찾음), 컨텍스트 오염(무관한 문서 포함), 생성 실패(컨텍스트 무시/할루시네이션), Lost in the Middle 문제, 각 실패 유형의 진단 방법",
+          "status": "generated",
+          "key_references": [
+            "https://arxiv.org/abs/2312.10997",
+            "https://github.com/RUC-NLPIR/FlashRAG"
+          ]
+        },
+        {
+          "id": "02-검색-단계-디버깅과-최적화",
+          "title": "검색 단계 디버깅과 최적화",
+          "file": "18-rag-최적화와-디버깅-성능-개선-전략/02-검색-단계-디버깅과-최적화.md",
+          "description": "검색 결과 로깅과 분석, 쿼리-문서 유사도 분포 시각화, 검색 실패 원인별 해결책(청킹 조정, 임베딩 모델 변경, 하이브리드 검색), 검색 파라미터 그리드 서치",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/RUC-NLPIR/FlashRAG",
+            "https://docs.ragas.io/"
+          ]
+        },
+        {
+          "id": "03-생성-단계-최적화-프롬프트와-컨텍스트",
+          "title": "생성 단계 최적화 — 프롬프트와 컨텍스트",
+          "file": "18-rag-최적화와-디버깅-성능-개선-전략/03-생성-단계-최적화-프롬프트와-컨텍스트.md",
+          "description": "RAG 프롬프트 엔지니어링 모범 사례, 컨텍스트 정렬과 순서의 영향, 긴 컨텍스트 처리 전략(Map-Reduce, Refine), 생성 품질과 할루시네이션 방지 기법",
+          "status": "generated",
+          "key_references": [
+            "https://arxiv.org/abs/2312.10997",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "04-지연시간과-비용-최적화",
+          "title": "지연시간과 비용 최적화",
+          "file": "18-rag-최적화와-디버깅-성능-개선-전략/04-지연시간과-비용-최적화.md",
+          "description": "RAG 파이프라인 지연시간 프로파일링, 임베딩 캐싱과 결과 캐싱 전략, 저비용 모델로의 단계적 대체, 비동기 처리와 병렬화, 벡터 DB 쿼리 최적화(인덱스 튜닝, 배치 쿼리)",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/RUC-NLPIR/FlashRAG",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "05-rag-디버깅-도구와-관찰-가능성",
+          "title": "RAG 디버깅 도구와 관찰 가능성",
+          "file": "18-rag-최적화와-디버깅-성능-개선-전략/05-rag-디버깅-도구와-관찰-가능성.md",
+          "description": "LangSmith를 활용한 RAG 트레이싱, 각 단계(검색, 리랭킹, 생성) 별 로그와 메트릭, 커스텀 콜백 핸들러 구현, 실시간 모니터링 대시보드 구축, 문제 재현과 디버깅 워크플로",
+          "status": "generated",
+          "key_references": [
+            "https://docs.langchain.com/oss/python/langchain/rag",
+            "https://github.com/RUC-NLPIR/FlashRAG"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "19-멀티모달-rag-이미지와-테이블-처리",
+      "title": "멀티모달 RAG — 이미지와 테이블 처리",
+      "description": "텍스트뿐 아니라 이미지, 테이블, 차트 등 다양한 모달리티의 데이터를 검색하고 활용하는 멀티모달 RAG 시스템을 구축합니다. 비전 모델과 문서 파싱의 통합을 실습합니다.",
+      "sections": [
+        {
+          "id": "01-멀티모달-rag-아키텍처-텍스트를-넘어서",
+          "title": "멀티모달 RAG 아키텍처 — 텍스트를 넘어서",
+          "file": "19-멀티모달-rag-이미지와-테이블-처리/01-멀티모달-rag-아키텍처-텍스트를-넘어서.md",
+          "description": "멀티모달 RAG가 필요한 시나리오(기술 문서, 논문, 보고서), 세 가지 접근법(텍스트 변환, 멀티모달 임베딩, 비전 LLM 활용), 각 접근법의 장단점과 적합한 사용 사례",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/Unstructured-IO/unstructured",
+            "https://developer.nvidia.com/blog/rag-101-demystifying-retrieval-augmented-generation-pipelines/"
+          ]
+        },
+        {
+          "id": "02-테이블과-이미지-추출-문서-파싱-심화",
+          "title": "테이블과 이미지 추출 — 문서 파싱 심화",
+          "file": "19-멀티모달-rag-이미지와-테이블-처리/02-테이블과-이미지-추출-문서-파싱-심화.md",
+          "description": "Unstructured.io의 hi_res 전략으로 테이블/이미지 추출, 테이블을 HTML/마크다운으로 변환, 이미지 캡셔닝(비전 LLM 활용), 추출된 요소를 Document 객체로 변환",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/Unstructured-IO/unstructured",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "03-멀티모달-임베딩과-검색",
+          "title": "멀티모달 임베딩과 검색",
+          "file": "19-멀티모달-rag-이미지와-테이블-처리/03-멀티모달-임베딩과-검색.md",
+          "description": "CLIP 등 멀티모달 임베딩 모델 소개, 텍스트와 이미지를 동일 벡터 공간에 매핑, 텍스트 쿼리로 이미지 검색 구현, 멀티모달 인덱스 구축과 검색 실습",
+          "status": "generated",
+          "key_references": [
+            "https://developers.openai.com/api/docs/guides/embeddings/",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "04-멀티모달-rag-파이프라인-통합-실습",
+          "title": "멀티모달 RAG 파이프라인 통합 실습",
+          "file": "19-멀티모달-rag-이미지와-테이블-처리/04-멀티모달-rag-파이프라인-통합-실습.md",
+          "description": "텍스트+테이블+이미지를 통합한 RAG 파이프라인 구축, 비전 LLM(GPT-4o 등)을 활용한 이미지 기반 답변 생성, 멀티모달 RAG 평가 방법, 실전 프로젝트(기술 매뉴얼 QA 시스템)",
+          "status": "generated",
+          "key_references": [
+            "https://github.com/Unstructured-IO/unstructured",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "20-프로덕션-rag-시스템-배포-모니터링-확장",
+      "title": "프로덕션 RAG 시스템 — 배포, 모니터링, 확장",
+      "description": "개발 환경의 RAG 프로토타입을 프로덕션 수준의 시스템으로 발전시키는 방법을 학습합니다. FastAPI 기반 서빙, 인프라 설계, 모니터링, 보안, 확장 전략을 다룹니다.",
+      "sections": [
+        {
+          "id": "01-fastapi로-rag-api-서빙",
+          "title": "FastAPI로 RAG API 서빙",
+          "file": "20-프로덕션-rag-시스템-배포-모니터링-확장/01-fastapi로-rag-api-서빙.md",
+          "description": "FastAPI 프로젝트 구조 설계, RAG 파이프라인을 REST API로 래핑, 비동기 엔드포인트 구현, 스트리밍 응답(StreamingResponse), 요청/응답 스키마 설계",
+          "status": "generated",
+          "key_references": [
+            "https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-solution-design-and-evaluation-guide",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "02-인덱스-관리와-데이터-파이프라인",
+          "title": "인덱스 관리와 데이터 파이프라인",
+          "file": "20-프로덕션-rag-시스템-배포-모니터링-확장/02-인덱스-관리와-데이터-파이프라인.md",
+          "description": "증분 인덱싱 파이프라인(새 문서 추가, 수정, 삭제), 인덱스 버전 관리와 롤백, 스케줄러 기반 자동 인덱싱, 문서 소스 변경 감지와 재인덱싱 전략",
+          "status": "generated",
+          "key_references": [
+            "https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-solution-design-and-evaluation-guide",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        },
+        {
+          "id": "03-보안과-접근-제어",
+          "title": "보안과 접근 제어",
+          "file": "20-프로덕션-rag-시스템-배포-모니터링-확장/03-보안과-접근-제어.md",
+          "description": "RAG 시스템의 보안 위협(프롬프트 인젝션, 데이터 유출), 문서 레벨 접근 제어(ACL) 구현, API 인증/인가(OAuth2, API Key), 입력 검증과 출력 필터링, PII(개인정보) 마스킹",
+          "status": "generated",
+          "key_references": [
+            "https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-solution-design-and-evaluation-guide",
+            "https://developers.cloudflare.com/reference-architecture/diagrams/ai/ai-rag/"
+          ]
+        },
+        {
+          "id": "04-모니터링-로깅-관찰-가능성",
+          "title": "모니터링, 로깅, 관찰 가능성",
+          "file": "20-프로덕션-rag-시스템-배포-모니터링-확장/04-모니터링-로깅-관찰-가능성.md",
+          "description": "RAG 전용 메트릭 정의(검색 지연시간, 답변 품질 점수, 토큰 사용량), 구조화된 로깅 설계, Prometheus/Grafana 모니터링 스택, 알러팅 규칙 설정, 실시간 대시보드",
+          "status": "generated",
+          "key_references": [
+            "https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-solution-design-and-evaluation-guide",
+            "https://docs.ragas.io/"
+          ]
+        },
+        {
+          "id": "05-확장성과-성능-최적화",
+          "title": "확장성과 성능 최적화",
+          "file": "20-프로덕션-rag-시스템-배포-모니터링-확장/05-확장성과-성능-최적화.md",
+          "description": "수평 확장 전략(벡터 DB 샤딩, API 서버 스케일아웃), 캐싱 레이어 설계(시멘틱 캐시, 결과 캐시), 동시 요청 처리와 큐잉, 로드 테스팅과 용량 계획",
+          "status": "generated",
+          "key_references": [
+            "https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-solution-design-and-evaluation-guide",
+            "https://developers.cloudflare.com/reference-architecture/diagrams/ai/ai-rag/"
+          ]
+        },
+        {
+          "id": "06-종합-프로젝트-프로덕션-rag-시스템-완성",
+          "title": "종합 프로젝트 — 프로덕션 RAG 시스템 완성",
+          "file": "20-프로덕션-rag-시스템-배포-모니터링-확장/06-종합-프로젝트-프로덕션-rag-시스템-완성.md",
+          "description": "전체 과정을 통합한 프로덕션급 RAG 시스템 구축, 문서 파이프라인+하이브리드 검색+리랭킹+에이전틱 RAG+평가+API 서빙의 전체 스택, 배포 체크리스트와 운영 가이드, 향후 발전 방향",
+          "status": "generated",
+          "key_references": [
+            "https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-solution-design-and-evaluation-guide",
+            "https://developers.cloudflare.com/reference-architecture/diagrams/ai/ai-rag/",
+            "https://docs.langchain.com/oss/python/langchain/rag"
+          ]
+        }
+      ]
+    }
+  ]
 }
