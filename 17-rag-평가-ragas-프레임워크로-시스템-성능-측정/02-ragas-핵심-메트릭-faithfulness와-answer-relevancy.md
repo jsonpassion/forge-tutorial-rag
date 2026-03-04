@@ -6,7 +6,7 @@
 
 이 섹션에서는 RAGAS 프레임워크의 가장 중요한 두 메트릭인 **Faithfulness(충실도)**와 **Answer Relevancy(답변 관련성)**의 작동 원리를 깊이 있게 이해하고, 실제 Python 코드로 측정하는 방법을 학습합니다.
 
-**선수 지식**: [17.1 RAG 평가란](ch17/session1.md)에서 배운 RAG 평가의 세 축, SingleTurnSample과 EvaluationDataset 구조, LLM-as-Judge 패러다임
+**선수 지식**: [17.1 RAG 평가란](17-rag-평가-ragas-프레임워크로-시스템-성능-측정/01-rag-평가란-무엇을-어떻게-측정할-것인가.md)에서 배운 RAG 평가의 세 축, SingleTurnSample과 EvaluationDataset 구조, LLM-as-Judge 패러다임
 
 **학습 목표**:
 - Faithfulness 메트릭의 주장 분해(Claim Decomposition) → NLI 검증 과정을 설명할 수 있다
@@ -191,7 +191,7 @@ evaluator_llm = llm_factory("gpt-4o-mini", client=client)
 
 ## 실습: 직접 해보기
 
-실제 RAG 시나리오를 가정하여 Faithfulness와 Answer Relevancy를 측정해봅시다. 앞서 [17.1 RAG 평가란](ch17/session1.md)에서 배운 SingleTurnSample 구조를 활용합니다.
+실제 RAG 시나리오를 가정하여 Faithfulness와 Answer Relevancy를 측정해봅시다. 앞서 [17.1 RAG 평가란](17-rag-평가-ragas-프레임워크로-시스템-성능-측정/01-rag-평가란-무엇을-어떻게-측정할-것인가.md)에서 배운 SingleTurnSample 구조를 활용합니다.
 
 ### Step 1: 평가 데이터 준비
 

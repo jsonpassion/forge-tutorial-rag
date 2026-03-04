@@ -4,7 +4,7 @@
 
 ## 개요
 
-이 섹션에서는 RAG 파이프라인의 문서 전처리 단계에서 가장 널리 사용되는 오픈소스 라이브러리인 Unstructured.io를 깊이 있게 다룹니다. 앞서 [3.1: 문서 로딩 기초](ch03/session_01.md)에서 LangChain Document Loaders의 기본 구조를 배웠고, [3.2: PDF 문서 처리](ch03/session_02.md)에서 PDF 파싱의 어려움과 다양한 라이브러리를 비교했습니다. 이번에는 그 모든 것을 하나로 통합하는 범용 파싱 엔진을 만나봅니다.
+이 섹션에서는 RAG 파이프라인의 문서 전처리 단계에서 가장 널리 사용되는 오픈소스 라이브러리인 Unstructured.io를 깊이 있게 다룹니다. 앞서 [3.1: 문서 로딩 기초](03-문서-로딩과-파싱-다양한-소스에서-데이터-수집/01-문서-로딩-기초-langchain-document-loaders.md)에서 LangChain Document Loaders의 기본 구조를 배웠고, [3.2: PDF 문서 처리](03-문서-로딩과-파싱-다양한-소스에서-데이터-수집/02-pdf-문서-처리-텍스트-추출과-레이아웃-분석.md)에서 PDF 파싱의 어려움과 다양한 라이브러리를 비교했습니다. 이번에는 그 모든 것을 하나로 통합하는 범용 파싱 엔진을 만나봅니다.
 
 **선수 지식**: Document 객체(page_content + metadata) 구조, PDF 파싱의 기본 개념, `UnstructuredPDFLoader`의 기본 사용법
 **학습 목표**:
@@ -235,7 +235,7 @@ docs = loader.load()
 # 각 Element가 하나의 Document 객체로 변환됨
 ```
 
-[3.1절](ch03/session_01.md)에서 배운 `Document(page_content, metadata)` 구조를 기억하시나요? `UnstructuredLoader`는 각 Element의 텍스트를 `page_content`로, Element 타입과 메타데이터를 `metadata`로 매핑합니다.
+[3.1절](03-문서-로딩과-파싱-다양한-소스에서-데이터-수집/01-문서-로딩-기초-langchain-document-loaders.md)에서 배운 `Document(page_content, metadata)` 구조를 기억하시나요? `UnstructuredLoader`는 각 Element의 텍스트를 `page_content`로, Element 타입과 메타데이터를 `metadata`로 매핑합니다.
 
 ```run:python
 from langchain_unstructured import UnstructuredLoader
@@ -378,7 +378,7 @@ if __name__ == "__main__":
 
 1. **`partition()`에 파일 경로만 전달**하면 형식 자동 감지 → 적절한 파서 호출 → Element 반환까지 한 번에 처리됩니다
 2. **Element 타입별 필터링**으로 표만 따로 추출하거나, 본문 텍스트만 모을 수 있습니다
-3. **`Title`을 추적하여 `section_title` 메타데이터를 추가**하면, 검색 결과에서 "이 단락이 어느 섹션에 속하는지" 보여줄 수 있습니다 — 이는 이후 [Ch4: 텍스트 청킹 전략](ch04/session_01.md)에서 더 자세히 다룹니다
+3. **`Title`을 추적하여 `section_title` 메타데이터를 추가**하면, 검색 결과에서 "이 단락이 어느 섹션에 속하는지" 보여줄 수 있습니다 — 이는 이후 [Ch4: 텍스트 청킹 전략](04-텍스트-청킹-전략-문서-분할과-최적화/01-청킹의-중요성과-기본-원리.md)에서 더 자세히 다룹니다
 
 ## 더 깊이 알아보기
 

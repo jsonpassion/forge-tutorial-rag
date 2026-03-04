@@ -4,7 +4,7 @@
 
 ## 개요
 
-이 섹션에서는 LangChain의 핵심 조합 문법인 LCEL(LangChain Expression Language)을 깊이 있게 다룹니다. 앞서 [세션 8.1: LangChain v1 핵심 개념과 설정](ch08/session_8_1.md)에서 `prompt | model | parser` 형태의 간단한 체인을 만들어 봤는데요, 이번에는 그 `|` 연산자가 어떻게 동작하는지, 그리고 RAG 파이프라인에서 필수적인 `RunnablePassthrough`, `RunnableLambda`, `RunnableParallel` 등의 도구를 마스터합니다.
+이 섹션에서는 LangChain의 핵심 조합 문법인 LCEL(LangChain Expression Language)을 깊이 있게 다룹니다. 앞서 [세션 8.1: LangChain v1 핵심 개념과 설정](08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/01-langchain-v1-핵심-개념과-설정.md)에서 `prompt | model | parser` 형태의 간단한 체인을 만들어 봤는데요, 이번에는 그 `|` 연산자가 어떻게 동작하는지, 그리고 RAG 파이프라인에서 필수적인 `RunnablePassthrough`, `RunnableLambda`, `RunnableParallel` 등의 도구를 마스터합니다.
 
 **선수 지식**: 세션 8.1에서 다룬 ChatModel, LCEL 파이프 연산자 기본 개념, `chain.invoke()` 사용법
 **학습 목표**:

@@ -6,7 +6,7 @@
 
 이 섹션에서는 Naive RAG와 Advanced RAG를 넘어, RAG 시스템의 각 구성 요소를 독립 모듈로 분리하고 자유롭게 조합하는 **Modular RAG** 아키텍처를 학습합니다. 고정된 파이프라인이 아닌, 쿼리의 특성에 따라 경로를 동적으로 결정하는 오케스트레이션(Orchestration) 개념을 이해하고, LangChain의 LCEL(LangChain Expression Language)로 이를 직접 구현해봅니다.
 
-**선수 지식**: [세션 2.3: Advanced RAG — 검색 전/후 최적화 전략](session_2_3.md)에서 배운 Pre-Retrieval, Post-Retrieval 최적화 개념과 MultiQueryRetriever, ContextualCompressionRetriever 사용법
+**선수 지식**: [세션 2.3: Advanced RAG — 검색 전/후 최적화 전략](02-rag-아키텍처-핵심-컴포넌트와-파이프라인-구조/03-advanced-rag-검색-전후-최적화-전략.md)에서 배운 Pre-Retrieval, Post-Retrieval 최적화 개념과 MultiQueryRetriever, ContextualCompressionRetriever 사용법
 
 **학습 목표**:
 - Modular RAG의 3계층 아키텍처(모듈 → 서브모듈 → 오퍼레이터)를 설명할 수 있다
@@ -16,7 +16,7 @@
 
 ## 왜 알아야 할까?
 
-[세션 2.2](session_2_2.md)에서 Naive RAG의 한계를, [세션 2.3](session_2_3.md)에서 Advanced RAG의 개선 전략을 살펴보았습니다. 하지만 Advanced RAG에도 근본적인 제약이 남아 있습니다 — **모든 쿼리가 동일한 파이프라인을 거친다**는 점이죠.
+[세션 2.2](02-rag-아키텍처-핵심-컴포넌트와-파이프라인-구조/02-naive-rag-기본-패턴과-한계.md)에서 Naive RAG의 한계를, [세션 2.3](02-rag-아키텍처-핵심-컴포넌트와-파이프라인-구조/03-advanced-rag-검색-전후-최적화-전략.md)에서 Advanced RAG의 개선 전략을 살펴보았습니다. 하지만 Advanced RAG에도 근본적인 제약이 남아 있습니다 — **모든 쿼리가 동일한 파이프라인을 거친다**는 점이죠.
 
 실무에서는 이런 상황이 빈번합니다:
 - "오늘 날씨 어때?"는 검색이 필요 없지만, "2024년 매출 데이터 분석해줘"는 정밀한 검색이 필수입니다
@@ -90,22 +90,22 @@ print(f"\n모듈 목록: {', '.join(modular_rag_architecture['modules'].keys())}
 
 > 💡 **비유**: Modular RAG의 6개 모듈은 **음식점의 주방 라인**과 비슷합니다. 식재료 준비(Indexing), 주문 확인(Pre-retrieval), 재료 꺼내기(Retrieval), 재료 손질(Post-retrieval), 요리(Generation), 그리고 주방장의 지시(Orchestration). 간단한 메뉴면 재료를 바로 꺼내 요리하지만, 복잡한 코스 요리라면 주방장이 순서를 정하고 여러 팀이 동시에 움직이죠.
 
-앞서 [세션 2.1](session_2_1.md)에서 배운 인제스천(Ingestion)과 인퍼런스(Inference) 파이프라인을 기억하시나요? Modular RAG는 이 흐름을 6개의 독립 모듈로 세분화합니다:
+앞서 [세션 2.1](02-rag-아키텍처-핵심-컴포넌트와-파이프라인-구조/01-rag-파이프라인-전체-구조-ingestion과-inference.md)에서 배운 인제스천(Ingestion)과 인퍼런스(Inference) 파이프라인을 기억하시나요? Modular RAG는 이 흐름을 6개의 독립 모듈로 세분화합니다:
 
 **1. Indexing 모듈** — 문서를 검색 가능한 형태로 변환
 - 청크 최적화: 크기, 오버랩, 구조 결정
 - 구조적 조직화: 계층적 인덱스, 지식 그래프 구성
-- [세션 2.1](session_2_1.md)의 `document_loading` → `text_splitting` → `embedding_generation` → `vector_storing` 과정에 해당
+- [세션 2.1](02-rag-아키텍처-핵심-컴포넌트와-파이프라인-구조/01-rag-파이프라인-전체-구조-ingestion과-inference.md)의 `document_loading` → `text_splitting` → `embedding_generation` → `vector_storing` 과정에 해당
 
 **2. Pre-retrieval 모듈** — 검색 전에 쿼리를 최적화
-- [세션 2.3](session_2_3.md)에서 배운 `query_rewriting`, `multi_query`, `hyde`가 모두 이 모듈의 오퍼레이터
+- [세션 2.3](02-rag-아키텍처-핵심-컴포넌트와-파이프라인-구조/03-advanced-rag-검색-전후-최적화-전략.md)에서 배운 `query_rewriting`, `multi_query`, `hyde`가 모두 이 모듈의 오퍼레이터
 
 **3. Retrieval 모듈** — 실제 검색 수행
 - Sparse(BM25), Dense(벡터 검색), Hybrid 방식 중 선택
 - 검색기(Retriever) 자체를 파인튜닝할 수도 있음
 
 **4. Post-retrieval 모듈** — 검색 결과 정제
-- [세션 2.3](session_2_3.md)의 `reranking`, `contextual_compression`이 이 모듈에 해당
+- [세션 2.3](02-rag-아키텍처-핵심-컴포넌트와-파이프라인-구조/03-advanced-rag-검색-전후-최적화-전략.md)의 `reranking`, `contextual_compression`이 이 모듈에 해당
 
 **5. Generation 모듈** — LLM으로 최종 답변 생성
 - 답변 합성과 검증(Hallucination 체크)을 포함
@@ -149,7 +149,7 @@ Query → Retrieval → Generation → Judge → [충분?] → 최종 답변
                                     ↓ [불충분]
                                   Query 수정 → Retrieval (반복)
 ```
-LLM이 검색 결과의 충분성을 판단하고, 부족하면 쿼리를 수정해 재검색합니다. [세션 2.5](session_2_5.md)에서 다룰 RAG 시스템 설계 실습과 직접 연결되는 패턴입니다.
+LLM이 검색 결과의 충분성을 판단하고, 부족하면 쿼리를 수정해 재검색합니다. [세션 2.5](02-rag-아키텍처-핵심-컴포넌트와-파이프라인-구조/05-rag-아키텍처-설계-실습-요구사항에서-설계까지.md)에서 다룰 RAG 시스템 설계 실습과 직접 연결되는 패턴입니다.
 
 ```run:python
 # 4가지 오케스트레이션 패턴의 특성 비교
@@ -510,7 +510,7 @@ Modular RAG라는 개념이 공식적으로 정립된 것은 2024년입니다. Y
 
 ## 다음 섹션 미리보기
 
-이번 세션에서 Modular RAG의 이론적 프레임워크를 이해했다면, 다음 [세션 2.5: RAG 시스템 설계 실습](session_2_5.md)에서는 이 모듈형 아키텍처를 **실제 프로젝트에 적용하는 설계 프로세스**를 실습합니다. 요구사항 분석 프레임워크로 시스템의 목표와 제약 조건을 정의하고, 컴포넌트 선택 매트릭스를 활용하여 각 모듈에 적합한 기술 스택을 비교·선정합니다. 또한 ADR(Architecture Decision Record) 형식으로 설계 결정을 문서화하는 방법과, 선택한 아키텍처의 비용을 추정하는 과정까지 다루며, Modular RAG의 개념을 구체적인 설계 산출물로 연결합니다.
+이번 세션에서 Modular RAG의 이론적 프레임워크를 이해했다면, 다음 [세션 2.5: RAG 시스템 설계 실습](02-rag-아키텍처-핵심-컴포넌트와-파이프라인-구조/05-rag-아키텍처-설계-실습-요구사항에서-설계까지.md)에서는 이 모듈형 아키텍처를 **실제 프로젝트에 적용하는 설계 프로세스**를 실습합니다. 요구사항 분석 프레임워크로 시스템의 목표와 제약 조건을 정의하고, 컴포넌트 선택 매트릭스를 활용하여 각 모듈에 적합한 기술 스택을 비교·선정합니다. 또한 ADR(Architecture Decision Record) 형식으로 설계 결정을 문서화하는 방법과, 선택한 아키텍처의 비용을 추정하는 과정까지 다루며, Modular RAG의 개념을 구체적인 설계 산출물로 연결합니다.
 
 ## 참고 자료
 

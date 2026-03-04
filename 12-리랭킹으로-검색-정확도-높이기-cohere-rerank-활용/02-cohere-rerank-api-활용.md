@@ -6,7 +6,7 @@
 
 이 섹션에서는 Cohere Rerank API의 구체적인 사용법을 학습합니다. API 호출 방법, 응답 구조의 해석, 그리고 LangChain의 `ContextualCompressionRetriever`를 활용한 RAG 파이프라인 통합까지 단계별로 실습합니다. 나아가 에러 처리, 배치 리랭킹, 점수 분포 분석 등 **프로덕션 레벨의 구현 패턴**도 함께 다룹니다.
 
-**선수 지식**: [12.1: 리랭킹의 원리](ch12/session1.md)에서 배운 Bi-Encoder vs Cross-Encoder의 차이, Retrieve-then-Rerank 2단계 패턴
+**선수 지식**: [12.1: 리랭킹의 원리](12-리랭킹으로-검색-정확도-높이기-cohere-rerank-활용/01-리랭킹의-원리-왜-초기-검색으로는-부족한가.md)에서 배운 Bi-Encoder vs Cross-Encoder의 차이, Retrieve-then-Rerank 2단계 패턴
 **학습 목표**:
 - Cohere Rerank API의 요청/응답 구조를 이해하고 직접 호출할 수 있다
 - `relevance_score`의 의미를 정확히 해석하고, 점수 분포 분석을 통해 임계값을 설정할 수 있다
@@ -17,7 +17,7 @@
 
 ## 왜 알아야 할까?
 
-앞서 [12.1: 리랭킹의 원리](ch12/session1.md)에서 Bi-Encoder의 구조적 한계를 살펴봤죠. 쿼리와 문서를 독립적으로 인코딩하기 때문에, 미묘한 의미 차이를 놓치는 경우가 많았습니다. Cross-Encoder가 이 문제를 해결한다는 것도 배웠고요.
+앞서 [12.1: 리랭킹의 원리](12-리랭킹으로-검색-정확도-높이기-cohere-rerank-활용/01-리랭킹의-원리-왜-초기-검색으로는-부족한가.md)에서 Bi-Encoder의 구조적 한계를 살펴봤죠. 쿼리와 문서를 독립적으로 인코딩하기 때문에, 미묘한 의미 차이를 놓치는 경우가 많았습니다. Cross-Encoder가 이 문제를 해결한다는 것도 배웠고요.
 
 그런데 실무에서는 "원리를 안다"와 "실제로 적용한다" 사이에 꽤 큰 간극이 있습니다. 직접 Cross-Encoder 모델을 학습시키고 운영하려면 GPU 인프라, 모델 관리, 버전 업데이트 같은 부담이 따르거든요. **Cohere Rerank API는 이 간극을 단 몇 줄의 코드로 메워줍니다.** API 한 번 호출로 세계 최고 수준의 리랭킹 성능을 즉시 사용할 수 있죠.
 
@@ -213,7 +213,7 @@ def dynamic_filter(results, min_gap_ratio=0.3):
 
 > 💡 **비유**: LangChain의 `ContextualCompressionRetriever`는 **품질 관리 필터**와 같습니다. 공장(벡터 DB)에서 제품(문서)이 나오면, 품질 검사원(CohereRerank)이 기준에 미달하는 제품을 걸러내고, 최고 품질 순으로 정렬해서 출하하는 거예요. 기존 공장 라인(retriever)을 바꿀 필요 없이, 검사 단계만 추가하면 됩니다.
 
-LangChain에서 Cohere Rerank를 통합하는 핵심은 `ContextualCompressionRetriever`입니다. 이 클래스는 기존 retriever를 감싸서, 검색 결과를 "압축"(실제로는 리랭킹 + 필터링)하는 역할을 합니다. 여기서 `base_retriever`는 [Ch8: 벡터 스토어 구축](ch08/session1.md)에서 만든 `vectorstore.as_retriever()`를 그대로 사용하면 됩니다. 이미 구축한 벡터 스토어 위에 리랭킹 레이어만 얹는 것이죠.
+LangChain에서 Cohere Rerank를 통합하는 핵심은 `ContextualCompressionRetriever`입니다. 이 클래스는 기존 retriever를 감싸서, 검색 결과를 "압축"(실제로는 리랭킹 + 필터링)하는 역할을 합니다. 여기서 `base_retriever`는 [Ch8: 벡터 스토어 구축](08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/01-langchain-v1-핵심-개념과-설정.md)에서 만든 `vectorstore.as_retriever()`를 그대로 사용하면 됩니다. 이미 구축한 벡터 스토어 위에 리랭킹 레이어만 얹는 것이죠.
 
 > 📊 **그림 2**: LangChain에서의 리랭킹 통합 아키텍처
 
@@ -809,7 +809,7 @@ Rerank 모델은 빠르게 진화하고 있습니다. Cohere Rerank 3.0(2024)은
 
 ## 다음 섹션 미리보기
 
-Cohere Rerank는 강력하지만, API 의존성과 비용이 발생합니다. 만약 **오프라인 환경**이나 **비용이 민감한 상황**이라면 어떻게 해야 할까요? 다음 섹션 [12.3: 오픈소스 Cross-Encoder 리랭킹](ch12/session3.md)에서는 `sentence-transformers`의 Cross-Encoder 모델을 로컬에서 실행하여, 외부 API 없이도 리랭킹을 구현하는 방법을 다룹니다. Cohere와의 성능 차이, 로컬 실행의 장단점까지 직접 비교해볼 예정입니다.
+Cohere Rerank는 강력하지만, API 의존성과 비용이 발생합니다. 만약 **오프라인 환경**이나 **비용이 민감한 상황**이라면 어떻게 해야 할까요? 다음 섹션 [12.3: 오픈소스 Cross-Encoder 리랭킹](12-리랭킹으로-검색-정확도-높이기-cohere-rerank-활용/03-오픈소스-cross-encoder-리랭킹.md)에서는 `sentence-transformers`의 Cross-Encoder 모델을 로컬에서 실행하여, 외부 API 없이도 리랭킹을 구현하는 방법을 다룹니다. Cohere와의 성능 차이, 로컬 실행의 장단점까지 직접 비교해볼 예정입니다.
 
 ## 참고 자료
 

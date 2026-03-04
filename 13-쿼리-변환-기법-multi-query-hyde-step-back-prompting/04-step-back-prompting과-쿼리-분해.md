@@ -6,7 +6,7 @@
 
 이 섹션에서는 쿼리 변환의 두 가지 핵심 전략인 **Step-Back Prompting**과 **쿼리 분해(Query Decomposition)**를 깊이 있게 다룹니다. Step-Back Prompting은 구체적인 질문을 더 일반적인 질문으로 추상화하여 넓은 맥락의 문서를 검색하고, 쿼리 분해는 복합 질문을 독립적인 하위 질문으로 나누어 각각 검색·답변한 뒤 통합하는 방식입니다. 두 기법 모두 LCEL 기반으로 직접 구현합니다.
 
-**선수 지식**: [13.1 쿼리 변환이 필요한 이유와 전략 개관](session_13_1.md)에서 배운 네 가지 쿼리 변환 전략의 개요, [13.2 Multi-Query Retriever](session_13_2.md)의 병렬 검색과 중복 제거, [13.3 HyDE](session_13_3.md)의 가설 문서 생성 개념
+**선수 지식**: [13.1 쿼리 변환이 필요한 이유와 전략 개관](13-쿼리-변환-기법-multi-query-hyde-step-back-prompting/01-쿼리-변환이-필요한-이유와-전략-개관.md)에서 배운 네 가지 쿼리 변환 전략의 개요, [13.2 Multi-Query Retriever](13-쿼리-변환-기법-multi-query-hyde-step-back-prompting/02-multi-query-retriever-다각도-검색.md)의 병렬 검색과 중복 제거, [13.3 HyDE](13-쿼리-변환-기법-multi-query-hyde-step-back-prompting/03-hyde-가설-문서-임베딩.md)의 가설 문서 생성 개념
 
 **학습 목표**:
 - Step-Back Prompting의 원리를 이해하고 LCEL 체인으로 구현할 수 있다
@@ -17,7 +17,7 @@
 
 ## 왜 알아야 할까?
 
-[13.1](session_13_1.md)에서 살펴본 것처럼, 사용자의 질문이 RAG 시스템에서 기대만큼 좋은 결과를 내지 못하는 이유 중 두 가지가 특히 까다롭습니다.
+[13.1](13-쿼리-변환-기법-multi-query-hyde-step-back-prompting/01-쿼리-변환이-필요한-이유와-전략-개관.md)에서 살펴본 것처럼, 사용자의 질문이 RAG 시스템에서 기대만큼 좋은 결과를 내지 못하는 이유 중 두 가지가 특히 까다롭습니다.
 
 **첫째, 질문이 너무 구체적인 경우입니다.** "2023년 3분기 삼성전자 HBM3E 양산 수율이 TSMC 대비 어떤가요?"처럼 매우 세부적인 질문은 벡터 DB에 정확히 일치하는 문서가 없으면 검색이 실패합니다. 하지만 "HBM3E 양산 기술 동향"이라는 더 넓은 질문으로 먼저 배경 지식을 확보하면, 원래 질문에도 훨씬 유용한 문서를 찾을 수 있죠.
 
@@ -167,7 +167,7 @@ step_back_rag_chain = (
 
 > 💡 **비유**: 이사를 할 때 "짐을 옮겨라"라고 하면 막막하지만, "주방 그릇 포장 → 옷 상자 포장 → 가전제품 분리 → 트럭 적재" 순서로 나누면 훨씬 수월하죠. 쿼리 분해도 마찬가지입니다 — 하나의 복잡한 질문을 여러 개의 간단한 질문으로 나누어, 각각에 대해 정확한 답을 찾은 뒤 합치는 거예요.
 
-쿼리 분해(Query Decomposition)는 하나의 복합 질문을 2~4개의 독립적인 하위 질문(Sub-Question)으로 분리하는 기법입니다. [13.1](session_13_1.md)에서 개관했던 전략 중 하나인데요, 여기서는 두 가지 분해 전략을 깊이 다룹니다:
+쿼리 분해(Query Decomposition)는 하나의 복합 질문을 2~4개의 독립적인 하위 질문(Sub-Question)으로 분리하는 기법입니다. [13.1](13-쿼리-변환-기법-multi-query-hyde-step-back-prompting/01-쿼리-변환이-필요한-이유와-전략-개관.md)에서 개관했던 전략 중 하나인데요, 여기서는 두 가지 분해 전략을 깊이 다룹니다:
 
 **병렬 분해 (Parallel Decomposition)**:
 - 하위 질문들이 서로 독립적일 때 사용
@@ -440,7 +440,7 @@ def sequential_decompose_and_answer(question: str) -> str:
 
 ### 개념 5: 분해 전략 자동 선택
 
-[13.1](session_13_1.md)에서 배운 쿼리 분류(Query Classification) 패턴을 여기에도 적용할 수 있습니다. 질문의 성격을 먼저 판별하고, Step-Back이 필요한지, 분해가 필요한지, 아니면 그대로 검색해도 되는지를 자동으로 결정하는 라우터를 만들어봅시다:
+[13.1](13-쿼리-변환-기법-multi-query-hyde-step-back-prompting/01-쿼리-변환이-필요한-이유와-전략-개관.md)에서 배운 쿼리 분류(Query Classification) 패턴을 여기에도 적용할 수 있습니다. 질문의 성격을 먼저 판별하고, Step-Back이 필요한지, 분해가 필요한지, 아니면 그대로 검색해도 되는지를 자동으로 결정하는 라우터를 만들어봅시다:
 
 ```python
 from langchain_core.pydantic_v1 import BaseModel, Field
@@ -821,7 +821,7 @@ Step-Back Prompting은 2023년 10월 Google DeepMind의 Huaixiu Steven Zheng, Sw
 
 ## 다음 섹션 미리보기
 
-이번 섹션에서 배운 Step-Back Prompting, 쿼리 분해와 함께 [13.2](session_13_2.md)의 Multi-Query, [13.3](session_13_3.md)의 HyDE까지 — 총 네 가지 쿼리 변환 전략을 모두 학습했습니다. 그런데 실제 RAG 시스템에서는 모든 질문에 하나의 전략만 적용하지 않죠. 질문의 특성에 따라 **적합한 전략을 자동으로 선택**하고, 때로는 **아예 다른 검색 소스나 인덱스로 질문을 보내야** 할 때도 있습니다. 다음 섹션 **[13.5 쿼리 라우팅](session_13_5.md)**에서는 이 "전략 자동 선택"을 넘어, 질문을 **최적의 데이터 소스로 라우팅**하는 기법을 다룹니다. 이번 섹션의 개념 5에서 맛본 쿼리 분류 라우터가 본격적으로 확장되는 셈이죠.
+이번 섹션에서 배운 Step-Back Prompting, 쿼리 분해와 함께 [13.2](13-쿼리-변환-기법-multi-query-hyde-step-back-prompting/02-multi-query-retriever-다각도-검색.md)의 Multi-Query, [13.3](13-쿼리-변환-기법-multi-query-hyde-step-back-prompting/03-hyde-가설-문서-임베딩.md)의 HyDE까지 — 총 네 가지 쿼리 변환 전략을 모두 학습했습니다. 그런데 실제 RAG 시스템에서는 모든 질문에 하나의 전략만 적용하지 않죠. 질문의 특성에 따라 **적합한 전략을 자동으로 선택**하고, 때로는 **아예 다른 검색 소스나 인덱스로 질문을 보내야** 할 때도 있습니다. 다음 섹션 **[13.5 쿼리 라우팅](13-쿼리-변환-기법-multi-query-hyde-step-back-prompting/05-쿼리-라우팅-적절한-검색-전략-자동-선택.md)**에서는 이 "전략 자동 선택"을 넘어, 질문을 **최적의 데이터 소스로 라우팅**하는 기법을 다룹니다. 이번 섹션의 개념 5에서 맛본 쿼리 분류 라우터가 본격적으로 확장되는 셈이죠.
 
 ## 참고 자료
 

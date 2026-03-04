@@ -6,7 +6,7 @@
 
 이 섹션에서는 HyDE(Hypothetical Document Embeddings)의 핵심 아이디어를 이해하고, 왜 "가설 답변의 임베딩"이 "원본 쿼리의 임베딩"보다 더 좋은 검색 결과를 만들어내는지 그 원리를 파헤칩니다. LangChain의 `HypotheticalDocumentEmbedder`와 LCEL 기반 커스텀 구현을 모두 다루며, HyDE가 빛을 발하는 상황과 오히려 역효과를 내는 한계점까지 균형 있게 살펴봅니다.
 
-**선수 지식**: [13.1 쿼리 변환이 필요한 이유와 전략 개관](ch13_session1.md)에서 배운 쿼리 변환 4대 전략과 어휘 불일치 문제, [13.2 Multi-Query Retriever](ch13_session2.md)에서 다룬 다각도 검색 및 중복 제거 패턴
+**선수 지식**: [13.1 쿼리 변환이 필요한 이유와 전략 개관](13-쿼리-변환-기법-multi-query-hyde-step-back-prompting/01-쿼리-변환이-필요한-이유와-전략-개관.md)에서 배운 쿼리 변환 4대 전략과 어휘 불일치 문제, [13.2 Multi-Query Retriever](13-쿼리-변환-기법-multi-query-hyde-step-back-prompting/02-multi-query-retriever-다각도-검색.md)에서 다룬 다각도 검색 및 중복 제거 패턴
 
 **학습 목표**:
 - HyDE의 핵심 아이디어(가설 문서 생성 → 임베딩 → 검색)를 설명할 수 있다
@@ -16,7 +16,7 @@
 
 ## 왜 알아야 할까?
 
-앞서 [13.1](ch13_session1.md)에서 RAG의 근본적 문제 중 하나로 **어휘 불일치(Vocabulary Mismatch)**를 언급했는데요. 사용자가 "파이썬으로 웹 크롤링하는 방법"이라고 물었을 때, 정작 벡터 DB에는 "BeautifulSoup과 requests를 활용한 HTML 파싱 가이드"라는 문서가 저장되어 있다면 어떨까요? 의미는 같지만, 표현이 완전히 다르기 때문에 임베딩 유사도가 낮게 나올 수 있습니다.
+앞서 [13.1](13-쿼리-변환-기법-multi-query-hyde-step-back-prompting/01-쿼리-변환이-필요한-이유와-전략-개관.md)에서 RAG의 근본적 문제 중 하나로 **어휘 불일치(Vocabulary Mismatch)**를 언급했는데요. 사용자가 "파이썬으로 웹 크롤링하는 방법"이라고 물었을 때, 정작 벡터 DB에는 "BeautifulSoup과 requests를 활용한 HTML 파싱 가이드"라는 문서가 저장되어 있다면 어떨까요? 의미는 같지만, 표현이 완전히 다르기 때문에 임베딩 유사도가 낮게 나올 수 있습니다.
 
 Multi-Query는 이 문제를 "여러 각도의 쿼리를 생성"하여 해결했죠. 하지만 쿼리를 아무리 다양하게 바꿔도, **짧은 질문(쿼리)과 긴 답변(문서) 사이의 근본적인 형태 차이**는 여전합니다. 쿼리는 보통 한두 문장인데, 문서는 여러 문단이거든요. 이 "형태 차이"를 해결하는 것이 바로 HyDE의 핵심 발상입니다.
 
@@ -160,7 +160,7 @@ def hyde_embed_query(question: str) -> list[float]:
 
 ### 개념 5: 다중 가설 문서로 정확도 높이기
 
-가설 문서 하나만으로는 LLM의 생성 편향에 영향을 받을 수 있습니다. 여러 개의 가설 문서를 생성하고 임베딩을 **평균**하면 더 안정적인 검색이 가능합니다. 이건 [13.2 Multi-Query Retriever](ch13_session2.md)에서 다룬 "다각도 검색"의 아이디어와도 맥이 닿는데요.
+가설 문서 하나만으로는 LLM의 생성 편향에 영향을 받을 수 있습니다. 여러 개의 가설 문서를 생성하고 임베딩을 **평균**하면 더 안정적인 검색이 가능합니다. 이건 [13.2 Multi-Query Retriever](13-쿼리-변환-기법-multi-query-hyde-step-back-prompting/02-multi-query-retriever-다각도-검색.md)에서 다룬 "다각도 검색"의 아이디어와도 맥이 닿는데요.
 
 > 📊 **그림 3**: 다중 가설 문서 임베딩 평균화 과정
 
@@ -442,7 +442,7 @@ Gao의 핵심 통찰은 이것이었습니다: **"LLM이 그럴듯한 답변을 
 
 ### HyDE vs Multi-Query: 언제 무엇을 쓸까?
 
-[13.2](ch13_session2.md)에서 배운 Multi-Query Retriever와 HyDE는 모두 쿼리 변환 기법이지만, 접근 방식이 근본적으로 다릅니다:
+[13.2](13-쿼리-변환-기법-multi-query-hyde-step-back-prompting/02-multi-query-retriever-다각도-검색.md)에서 배운 Multi-Query Retriever와 HyDE는 모두 쿼리 변환 기법이지만, 접근 방식이 근본적으로 다릅니다:
 
 | 관점 | Multi-Query | HyDE |
 |---|---|---|

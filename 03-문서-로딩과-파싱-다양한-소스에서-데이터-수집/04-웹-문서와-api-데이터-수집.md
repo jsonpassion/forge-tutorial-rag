@@ -7,9 +7,9 @@
 이 섹션에서는 웹에 존재하는 다양한 데이터를 수집하여 LangChain의 Document 객체로 변환하는 방법을 학습합니다. 단일 웹 페이지 로딩부터 사이트 전체 크롤링, REST API 응답 처리까지 다루며, 책임감 있는 크롤링을 위한 윤리적 가이드라인도 함께 살펴봅니다.
 
 **선수 지식**:
-- [Session 3.1: 문서 로딩 기초](ch03/session_3_1.md)에서 배운 Document 객체(page_content + metadata) 구조
-- [Session 3.2: PDF 문서 처리](ch03/session_02.md)에서 배운 content_type 메타데이터 패턴
-- [Session 3.3: Unstructured.io](ch03/session_3_3.md)에서 배운 `partition_html()` 함수
+- [Session 3.1: 문서 로딩 기초](03-문서-로딩과-파싱-다양한-소스에서-데이터-수집/01-문서-로딩-기초-langchain-document-loaders.md)에서 배운 Document 객체(page_content + metadata) 구조
+- [Session 3.2: PDF 문서 처리](03-문서-로딩과-파싱-다양한-소스에서-데이터-수집/02-pdf-문서-처리-텍스트-추출과-레이아웃-분석.md)에서 배운 content_type 메타데이터 패턴
+- [Session 3.3: Unstructured.io](03-문서-로딩과-파싱-다양한-소스에서-데이터-수집/03-unstructuredio-범용-문서-파싱-엔진.md)에서 배운 `partition_html()` 함수
 - Python의 기본 HTTP 요청 개념 (requests 라이브러리)
 
 **학습 목표**:
@@ -32,7 +32,7 @@
 
 > 💡 **비유**: WebBaseLoader는 웹 브라우저에서 "Ctrl+A → Ctrl+C"를 하는 것과 같습니다. 페이지의 텍스트 내용을 통째로 복사해서 Document 객체에 담아주죠. 단, 사람 눈에 보이는 예쁜 레이아웃 대신, 순수한 텍스트만 가져옵니다.
 
-WebBaseLoader는 LangChain에서 가장 기본적인 웹 로더입니다. 내부적으로 `requests` 라이브러리로 HTML을 가져오고, `BeautifulSoup`으로 텍스트를 추출합니다. [Session 3.1](ch03/session_3_1.md)에서 배운 TextLoader가 로컬 파일을 읽었다면, WebBaseLoader는 **URL을 읽는 TextLoader**라고 생각하면 됩니다.
+WebBaseLoader는 LangChain에서 가장 기본적인 웹 로더입니다. 내부적으로 `requests` 라이브러리로 HTML을 가져오고, `BeautifulSoup`으로 텍스트를 추출합니다. [Session 3.1](03-문서-로딩과-파싱-다양한-소스에서-데이터-수집/01-문서-로딩-기초-langchain-document-loaders.md)에서 배운 TextLoader가 로컬 파일을 읽었다면, WebBaseLoader는 **URL을 읽는 TextLoader**라고 생각하면 됩니다.
 
 ```python
 # 필요한 패키지 설치
@@ -214,7 +214,7 @@ loader = SitemapLoader(
 
 RAG 시스템은 웹 페이지만 다루지 않습니다. GitHub Issues, Jira 티켓, Notion 페이지, Slack 메시지 등 다양한 **API 기반 데이터 소스**를 활용해야 할 때가 많습니다. API 응답(주로 JSON)을 LangChain의 Document 객체로 변환하는 패턴을 알아봅시다.
 
-[Session 3.1](ch03/session_3_1.md)에서 배운 것처럼 Document는 `page_content`와 `metadata`로 구성됩니다. API 응답의 핵심 텍스트를 `page_content`에, 부가 정보를 `metadata`에 매핑하면 됩니다. 이때 [Session 3.2](ch03/session_02.md)에서 배운 `content_type` 메타데이터 패턴을 동일하게 적용하면, 웹/API에서 수집한 문서와 PDF에서 수집한 문서를 하나의 파이프라인에서 일관되게 관리할 수 있습니다.
+[Session 3.1](03-문서-로딩과-파싱-다양한-소스에서-데이터-수집/01-문서-로딩-기초-langchain-document-loaders.md)에서 배운 것처럼 Document는 `page_content`와 `metadata`로 구성됩니다. API 응답의 핵심 텍스트를 `page_content`에, 부가 정보를 `metadata`에 매핑하면 됩니다. 이때 [Session 3.2](03-문서-로딩과-파싱-다양한-소스에서-데이터-수집/02-pdf-문서-처리-텍스트-추출과-레이아웃-분석.md)에서 배운 `content_type` 메타데이터 패턴을 동일하게 적용하면, 웹/API에서 수집한 문서와 PDF에서 수집한 문서를 하나의 파이프라인에서 일관되게 관리할 수 있습니다.
 
 ```python
 import requests
@@ -550,7 +550,7 @@ if __name__ == "__main__":
 [5] github_issue    |    634자 | https://github.com/langchain-ai/langchain/issues/30515
 ```
 
-이렇게 수집한 Document들은 다음 장([Chapter 4: 텍스트 청킹 전략](ch04/session_4_1.md))에서 배울 텍스트 분할기를 거쳐 벡터 데이터베이스에 저장하게 됩니다.
+이렇게 수집한 Document들은 다음 장([Chapter 4: 텍스트 청킹 전략](04-텍스트-청킹-전략-문서-분할과-최적화/01-청킹의-중요성과-기본-원리.md))에서 배울 텍스트 분할기를 거쳐 벡터 데이터베이스에 저장하게 됩니다.
 
 ## 더 깊이 알아보기
 
@@ -596,7 +596,7 @@ Wanderer의 등장 이후 여러 웹 크롤러가 생겨나면서, 서버 관리
 
 ## 다음 섹션 미리보기
 
-지금까지 Chapter 3에서 텍스트 파일, PDF, Unstructured.io, 그리고 웹/API까지 다양한 소스에서 데이터를 수집하는 방법을 배웠습니다. 다음 [Session 3.5](ch03/session_3_5.md)에서는 이 모든 것을 통합하여 **실전 문서 전처리 파이프라인**을 구축합니다. 여러 형식의 문서가 혼재된 상황에서 자동으로 형식을 감지하고, 적절한 로더를 선택하여, 깔끔한 Document 컬렉션으로 만드는 실전 워크플로를 다루게 됩니다. [Chapter 4: 텍스트 청킹 전략](ch04/session_4_1.md)으로 넘어가기 전에 꼭 알아야 할 통합 실습이니 기대해 주세요!
+지금까지 Chapter 3에서 텍스트 파일, PDF, Unstructured.io, 그리고 웹/API까지 다양한 소스에서 데이터를 수집하는 방법을 배웠습니다. 다음 [Session 3.5](03-문서-로딩과-파싱-다양한-소스에서-데이터-수집/05-문서-로딩-파이프라인-구축-실전-etl.md)에서는 이 모든 것을 통합하여 **실전 문서 전처리 파이프라인**을 구축합니다. 여러 형식의 문서가 혼재된 상황에서 자동으로 형식을 감지하고, 적절한 로더를 선택하여, 깔끔한 Document 컬렉션으로 만드는 실전 워크플로를 다루게 됩니다. [Chapter 4: 텍스트 청킹 전략](04-텍스트-청킹-전략-문서-분할과-최적화/01-청킹의-중요성과-기본-원리.md)으로 넘어가기 전에 꼭 알아야 할 통합 실습이니 기대해 주세요!
 
 ## 참고 자료
 
@@ -604,7 +604,7 @@ Wanderer의 등장 이후 여러 웹 크롤러가 생겨나면서, 서버 관리
 - [RecursiveUrlLoader 공식 문서](https://docs.langchain.com/oss/python/integrations/document_loaders/recursive_url) — 재귀 크롤링 로더의 매개변수, 보안 고려사항, 커스텀 extractor 사용법
 - [SitemapLoader 공식 문서](https://docs.langchain.com/oss/python/integrations/document_loaders/sitemap) — 사이트맵 기반 수집의 필터링, 커스텀 파싱 함수, 로컬 사이트맵 지원
 - [Google robots.txt 명세 가이드](https://developers.google.com/crawling/docs/robots-txt/robots-txt-spec) — robots.txt 표준의 공식 해석과 구현 가이드
-- [Unstructured.io GitHub](https://github.com/Unstructured-IO/unstructured) — `partition_html(url=...)` 직접 URL 파싱 지원. [Session 3.3](ch03/session_3_3.md)에서 배운 Unstructured를 웹 데이터에 활용 가능
+- [Unstructured.io GitHub](https://github.com/Unstructured-IO/unstructured) — `partition_html(url=...)` 직접 URL 파싱 지원. [Session 3.3](03-문서-로딩과-파싱-다양한-소스에서-데이터-수집/03-unstructuredio-범용-문서-파싱-엔진.md)에서 배운 Unstructured를 웹 데이터에 활용 가능
 - [LangChain RAG 공식 문서](https://docs.langchain.com/oss/python/langchain/rag) — 문서 수집부터 검색까지 RAG 전체 파이프라인의 공식 레퍼런스
 
 ---

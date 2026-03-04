@@ -4,12 +4,12 @@
 
 ## 개요
 
-이 섹션에서는 [16.4: Corrective RAG](ch16/session4.md)에서 구현한 검색 결과 평가를 넘어, **생성된 답변 자체의 품질**까지 LLM이 자동으로 평가하는 Self-RAG 패턴을 완성합니다. 할루시네이션(Hallucination) 감지, 질문 적합성 평가, 최대 재시도 제한까지 포함한 완전한 자기 교정(Self-Corrective) RAG 그래프를 구축합니다.
+이 섹션에서는 [16.4: Corrective RAG](16-에이전틱-rag-langgraph로-동적-검색-에이전트-구축/04-corrective-rag-검색-결과-평가와-재검색.md)에서 구현한 검색 결과 평가를 넘어, **생성된 답변 자체의 품질**까지 LLM이 자동으로 평가하는 Self-RAG 패턴을 완성합니다. 할루시네이션(Hallucination) 감지, 질문 적합성 평가, 최대 재시도 제한까지 포함한 완전한 자기 교정(Self-Corrective) RAG 그래프를 구축합니다.
 
 **선수 지식**:
-- [16.2: LangGraph 기초](ch16/session2.md)의 StateGraph, Node, Edge, Conditional Edge 개념
-- [16.3: 검색 도구 RAG 에이전트](ch16/session3.md)의 create_retriever_tool, ToolNode 패턴
-- [16.4: Corrective RAG](ch16/session4.md)의 GradeDocuments, 쿼리 변환, 웹 검색 폴백
+- [16.2: LangGraph 기초](16-에이전틱-rag-langgraph로-동적-검색-에이전트-구축/02-langgraph-기초-상태-그래프-프로그래밍.md)의 StateGraph, Node, Edge, Conditional Edge 개념
+- [16.3: 검색 도구 RAG 에이전트](16-에이전틱-rag-langgraph로-동적-검색-에이전트-구축/03-검색-도구를-활용하는-rag-에이전트-구축.md)의 create_retriever_tool, ToolNode 패턴
+- [16.4: Corrective RAG](16-에이전틱-rag-langgraph로-동적-검색-에이전트-구축/04-corrective-rag-검색-결과-평가와-재검색.md)의 GradeDocuments, 쿼리 변환, 웹 검색 폴백
 
 **학습 목표**:
 - Self-RAG 논문의 핵심 아이디어(반성 토큰 4종)를 이해한다
@@ -19,7 +19,7 @@
 
 ## 왜 알아야 할까?
 
-[16.4: Corrective RAG](ch16/session4.md)에서 우리는 검색된 문서의 **관련성**을 평가하는 방법을 배웠습니다. 관련 없는 문서를 걸러내고, 쿼리를 변환하거나 웹 검색으로 폴백하는 것까지 구현했죠. 그런데 한 가지 빈틈이 있습니다 — **검색된 문서가 좋아도, LLM이 엉뚱한 답변을 만들면 어쩌죠?**
+[16.4: Corrective RAG](16-에이전틱-rag-langgraph로-동적-검색-에이전트-구축/04-corrective-rag-검색-결과-평가와-재검색.md)에서 우리는 검색된 문서의 **관련성**을 평가하는 방법을 배웠습니다. 관련 없는 문서를 걸러내고, 쿼리를 변환하거나 웹 검색으로 폴백하는 것까지 구현했죠. 그런데 한 가지 빈틈이 있습니다 — **검색된 문서가 좋아도, LLM이 엉뚱한 답변을 만들면 어쩌죠?**
 
 실제로 이런 상황은 생각보다 흔합니다. 관련성 높은 문서 3개를 검색했는데, LLM이 문서에 없는 내용을 자신 있게 지어내는 경우가 있거든요. 이게 바로 할루시네이션입니다. Corrective RAG의 "입구 검문"만으로는 "출구 검수"까지 보장할 수 없는 셈이죠.
 
@@ -65,7 +65,7 @@ flowchart TD
 
 > 💡 **비유**: 학생이 "참고 문헌에서 인용했습니다"라고 썼는데, 실제로 참고 문헌에 그런 내용이 없다면? 그게 바로 할루시네이션입니다. GradeHallucinations는 LLM의 답변이 검색된 문서에 **실제로 근거하는지** 교차 검증하는 채점관입니다.
 
-[16.4](ch16/session4.md)에서 `GradeDocuments`를 `with_structured_output()`으로 구현한 것처럼, 할루시네이션 감지도 Pydantic 모델과 구조화 출력을 사용합니다:
+[16.4](16-에이전틱-rag-langgraph로-동적-검색-에이전트-구축/04-corrective-rag-검색-결과-평가와-재검색.md)에서 `GradeDocuments`를 `with_structured_output()`으로 구현한 것처럼, 할루시네이션 감지도 Pydantic 모델과 구조화 출력을 사용합니다:
 
 ```python
 from pydantic import BaseModel, Field
@@ -211,7 +211,7 @@ stateDiagram-v2
 
 ## 실습: 직접 해보기
 
-이제 Self-RAG의 모든 개념을 하나로 합쳐, [16.4의 Corrective RAG](ch16/session4.md)를 확장한 완전한 Self-RAG 그래프를 구현해보겠습니다.
+이제 Self-RAG의 모든 개념을 하나로 합쳐, [16.4의 Corrective RAG](16-에이전틱-rag-langgraph로-동적-검색-에이전트-구축/04-corrective-rag-검색-결과-평가와-재검색.md)를 확장한 완전한 Self-RAG 그래프를 구현해보겠습니다.
 
 ### 1단계: 환경 설정과 벡터 스토어 준비
 
@@ -552,7 +552,7 @@ for step in app.stream(inputs):
 
 ### Corrective RAG + Self-RAG 통합: Adaptive RAG
 
-[16.4의 Corrective RAG](ch16/session4.md)와 이번 세션의 Self-RAG를 결합하면 **Adaptive RAG** 패턴이 완성됩니다. 이것이 바로 [16.1](ch16/session1.md)에서 소개한 세 가지 접근법(Corrective, Self, Adaptive)의 통합이죠:
+[16.4의 Corrective RAG](16-에이전틱-rag-langgraph로-동적-검색-에이전트-구축/04-corrective-rag-검색-결과-평가와-재검색.md)와 이번 세션의 Self-RAG를 결합하면 **Adaptive RAG** 패턴이 완성됩니다. 이것이 바로 [16.1](16-에이전틱-rag-langgraph로-동적-검색-에이전트-구축/01-에이전틱-rag란-왜-에이전트가-필요한가.md)에서 소개한 세 가지 접근법(Corrective, Self, Adaptive)의 통합이죠:
 
 > 📊 **그림 4**: Adaptive RAG = Corrective RAG + Self-RAG 통합
 
@@ -622,7 +622,7 @@ Self-RAG가 "생성 후 자기 평가"에 집중했다면, Adaptive RAG(Jeong et
 
 ## 다음 섹션 미리보기
 
-이번 세션으로 **Chapter 16: 에이전틱 RAG**를 완성했습니다! Corrective RAG로 검색을 교정하고, Self-RAG로 생성까지 교정하는 완전한 자기 교정 RAG 시스템을 구축했죠. 다음 [Chapter 17: RAG 평가 — RAGAS 프레임워크로 시스템 성능 측정](ch17/session1.md)에서는 이렇게 구축한 RAG 시스템의 성능을 **정량적으로 측정**하는 방법을 배웁니다. Faithfulness, Answer Relevancy, Context Precision, Context Recall — 이 네 가지 메트릭으로 우리 시스템이 실제로 얼마나 잘 작동하는지 숫자로 확인할 수 있게 됩니다.
+이번 세션으로 **Chapter 16: 에이전틱 RAG**를 완성했습니다! Corrective RAG로 검색을 교정하고, Self-RAG로 생성까지 교정하는 완전한 자기 교정 RAG 시스템을 구축했죠. 다음 [Chapter 17: RAG 평가 — RAGAS 프레임워크로 시스템 성능 측정](17-rag-평가-ragas-프레임워크로-시스템-성능-측정/01-rag-평가란-무엇을-어떻게-측정할-것인가.md)에서는 이렇게 구축한 RAG 시스템의 성능을 **정량적으로 측정**하는 방법을 배웁니다. Faithfulness, Answer Relevancy, Context Precision, Context Recall — 이 네 가지 메트릭으로 우리 시스템이 실제로 얼마나 잘 작동하는지 숫자로 확인할 수 있게 됩니다.
 
 ## 참고 자료
 
