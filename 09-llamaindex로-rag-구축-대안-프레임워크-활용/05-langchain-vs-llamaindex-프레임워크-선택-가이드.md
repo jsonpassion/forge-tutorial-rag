@@ -7,8 +7,8 @@
 이 섹션에서는 지금까지 배운 LangChain(Ch8)과 LlamaIndex(Ch9)를 나란히 놓고 비교합니다. 동일한 RAG 요구사항을 두 프레임워크로 각각 구현해보고, 코드 복잡도·유연성·생태계·성능 차이를 직접 확인합니다. 나아가 두 프레임워크를 **함께 사용하는 하이브리드 패턴**까지 다룹니다.
 
 **선수 지식**: 
-- [Ch8: 기본 RAG 파이프라인 구축](ch08)에서 배운 LangChain LCEL 체인, RetrievalQA 패턴
-- [Session 9.1](session-9.1)~[9.4](session-9.4)에서 배운 LlamaIndex의 Document/Node/Index, QueryEngine, ChatEngine
+- [Ch8: 기본 RAG 파이프라인 구축](08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/01-langchain-v1-핵심-개념과-설정.md)에서 배운 LangChain LCEL 체인, RetrievalQA 패턴
+- [Session 9.1](09-llamaindex로-rag-구축-대안-프레임워크-활용/01-llamaindex-핵심-개념-document-node-index.md)~[9.4](09-llamaindex로-rag-구축-대안-프레임워크-활용/04-chatengine-대화형-rag-구현.md)에서 배운 LlamaIndex의 Document/Node/Index, QueryEngine, ChatEngine
 
 **학습 목표**:
 - LangChain과 LlamaIndex의 설계 철학 차이를 명확히 이해한다
@@ -58,7 +58,7 @@ flowchart TB
     style LI fill:#e8f8e8,stroke:#4caf50
 ```
 
-[Session 9.1](session-9.1)에서 배운 것처럼, LlamaIndex는 Document → Node → Index라는 **데이터 중심 파이프라인**이 뼈대입니다. 반면 [Ch8](ch08)에서 다룬 LangChain은 프롬프트 → LLM → 출력 파서라는 **처리 체인**이 중심이죠.
+[Session 9.1](09-llamaindex로-rag-구축-대안-프레임워크-활용/01-llamaindex-핵심-개념-document-node-index.md)에서 배운 것처럼, LlamaIndex는 Document → Node → Index라는 **데이터 중심 파이프라인**이 뼈대입니다. 반면 [Ch8](08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/01-langchain-v1-핵심-개념과-설정.md)에서 다룬 LangChain은 프롬프트 → LLM → 출력 파서라는 **처리 체인**이 중심이죠.
 
 실무에서 이 차이가 어떻게 나타나는지 볼까요?
 
@@ -179,7 +179,7 @@ print(response)
 
 차이가 보이시나요? LangChain은 **16줄**(import 제외)인데, LlamaIndex는 **5줄**이면 끝납니다. 하지만 이것이 LlamaIndex가 "더 좋다"는 뜻은 아닙니다. 
 
-LangChain의 명시적 구성은 **각 단계를 세밀하게 제어**할 수 있다는 뜻이고, LlamaIndex의 간결함은 **합리적 기본값(Sensible Defaults)** 위에 세워졌기 때문이에요. [Session 9.3](session-9.3)에서 배운 것처럼, LlamaIndex도 저수준 API로 각 컴포넌트를 분리해서 조립할 수 있지만, "빠른 프로토타이핑"에서는 기본값이 큰 힘을 발휘합니다.
+LangChain의 명시적 구성은 **각 단계를 세밀하게 제어**할 수 있다는 뜻이고, LlamaIndex의 간결함은 **합리적 기본값(Sensible Defaults)** 위에 세워졌기 때문이에요. [Session 9.3](09-llamaindex로-rag-구축-대안-프레임워크-활용/03-queryengine과-응답-합성.md)에서 배운 것처럼, LlamaIndex도 저수준 API로 각 컴포넌트를 분리해서 조립할 수 있지만, "빠른 프로토타이핑"에서는 기본값이 큰 힘을 발휘합니다.
 
 > 📊 **그림 2**: 동일 RAG 파이프라인의 코드 흐름 비교
 
@@ -587,13 +587,13 @@ if __name__ == "__main__":
 
 ## 흔한 오해와 팁
 
-> ⚠️ **흔한 오해**: "LlamaIndex는 간단한 프로젝트용이고, LangChain은 복잡한 프로젝트용이다"라는 인식이 있습니다. 이건 반만 맞는 말입니다. LlamaIndex의 고수준 API가 간결해서 그렇게 보이지만, [Session 9.3](session-9.3)에서 다룬 것처럼 저수준 API(`RetrieverQueryEngine`, `ResponseSynthesizer` 직접 조합)를 사용하면 LangChain 못지않게 세밀한 제어가 가능합니다. "간결하다"와 "단순하다"는 다릅니다.
+> ⚠️ **흔한 오해**: "LlamaIndex는 간단한 프로젝트용이고, LangChain은 복잡한 프로젝트용이다"라는 인식이 있습니다. 이건 반만 맞는 말입니다. LlamaIndex의 고수준 API가 간결해서 그렇게 보이지만, [Session 9.3](09-llamaindex로-rag-구축-대안-프레임워크-활용/03-queryengine과-응답-합성.md)에서 다룬 것처럼 저수준 API(`RetrieverQueryEngine`, `ResponseSynthesizer` 직접 조합)를 사용하면 LangChain 못지않게 세밀한 제어가 가능합니다. "간결하다"와 "단순하다"는 다릅니다.
 
 > 💡 **알고 계셨나요?**: LangChain의 창시자 Harrison Chase와 LlamaIndex의 창시자 Jerry Liu는 같은 회사(Robust Intelligence) 출신입니다. 두 프레임워크가 비슷한 시기에 등장한 건 우연이 아니라, 같은 환경에서 같은 문제를 경험했기 때문이에요. 실제로 두 팀은 초기부터 공식적으로 상호 연동을 지원했습니다.
 
 > 🔥 **실무 팁**: 프레임워크 선택에 너무 고민하지 마세요. 어차피 핵심 로직(임베딩 모델, 벡터 DB, LLM)은 동일합니다. 3~4시간이면 두 프레임워크 모두 프로토타입을 만들 수 있으니, **둘 다 만들어보고 비교**하는 것이 가장 확실한 방법입니다. 특히 팀 내 경험치와 기존 인프라가 선택에 가장 큰 영향을 미치는 요소입니다.
 
-> 🔥 **실무 팁**: 2025년 이후 가장 현실적인 조합은 "**LlamaIndex로 데이터 파이프라인, LangGraph로 에이전트 워크플로**"입니다. LangGraph는 LangChain 생태계의 에이전트 프레임워크로, 상태 기반 그래프 워크플로에 강합니다. [Ch16: 에이전틱 RAG](ch16)에서 자세히 다룰 예정입니다.
+> 🔥 **실무 팁**: 2025년 이후 가장 현실적인 조합은 "**LlamaIndex로 데이터 파이프라인, LangGraph로 에이전트 워크플로**"입니다. LangGraph는 LangChain 생태계의 에이전트 프레임워크로, 상태 기반 그래프 워크플로에 강합니다. [Ch16: 에이전틱 RAG](16-에이전틱-rag-langgraph로-동적-검색-에이전트-구축/01-에이전틱-rag란-왜-에이전트가-필요한가.md)에서 자세히 다룰 예정입니다.
 
 ## 핵심 정리
 
@@ -612,7 +612,7 @@ if __name__ == "__main__":
 
 이것으로 Ch9 "LlamaIndex로 RAG 구축"을 마무리합니다! Ch8과 Ch9를 통해 두 대표 프레임워크로 RAG를 구축하는 방법을 모두 배웠습니다.
 
-다음 [Ch10: 검색 품질 향상](ch10)에서는 프레임워크에 관계없이 **검색 자체의 품질을 높이는 방법**에 집중합니다. 유사도 검색(Cosine Similarity, MMR)과 메타데이터 필터링을 활용해서, "관련 있는 문서를 더 정확하게 찾는" 기술을 다루게 됩니다. 어떤 프레임워크를 선택하든 검색 품질이 RAG 성능의 핵심이니까요!
+다음 [Ch10: 검색 품질 향상](10-검색-품질-향상-유사도-검색과-메타데이터-필터링/01-유사도-검색-심화-top-k와-임계값-최적화.md)에서는 프레임워크에 관계없이 **검색 자체의 품질을 높이는 방법**에 집중합니다. 유사도 검색(Cosine Similarity, MMR)과 메타데이터 필터링을 활용해서, "관련 있는 문서를 더 정확하게 찾는" 기술을 다루게 됩니다. 어떤 프레임워크를 선택하든 검색 품질이 RAG 성능의 핵심이니까요!
 
 ## 참고 자료
 

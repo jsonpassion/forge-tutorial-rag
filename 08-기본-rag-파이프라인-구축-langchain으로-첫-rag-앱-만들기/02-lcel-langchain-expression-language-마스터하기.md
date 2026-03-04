@@ -439,7 +439,7 @@ LCEL의 내부를 들여다보면, 모든 체인은 결국 두 가지 조합 프
 
 ## 다음 섹션 미리보기
 
-LCEL의 조합 문법을 마스터했으니, 다음 세션에서는 드디어 **실제 벡터 데이터베이스와 연결하여 Retriever를 구성**합니다. 앞서 [챕터 6](ch06/)에서 배운 ChromaDB를 LangChain의 `VectorStoreRetriever`로 감싸고, 이번에 배운 LCEL 패턴(`RunnablePassthrough` + `RunnableParallel`)을 활용해 진짜 작동하는 RAG 체인을 완성합니다.
+LCEL의 조합 문법을 마스터했으니, 다음 세션에서는 드디어 **실제 벡터 데이터베이스와 연결하여 Retriever를 구성**합니다. 앞서 [챕터 6](06-벡터-데이터베이스-기초-chromadb로-시작하기/01-벡터-데이터베이스란-왜-필요한가.md)에서 배운 ChromaDB를 LangChain의 `VectorStoreRetriever`로 감싸고, 이번에 배운 LCEL 패턴(`RunnablePassthrough` + `RunnableParallel`)을 활용해 진짜 작동하는 RAG 체인을 완성합니다.
 
 ## 참고 자료
 

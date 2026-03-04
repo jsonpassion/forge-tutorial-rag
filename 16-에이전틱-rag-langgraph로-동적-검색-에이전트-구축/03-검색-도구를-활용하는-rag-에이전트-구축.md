@@ -9,7 +9,7 @@
 **선수 지식**:
 - [16.1: 에이전틱 RAG란 무엇인가](ch16/session1.md)에서 배운 에이전틱 RAG의 개념과 Corrective/Self/Adaptive RAG 패턴
 - [16.2: LangGraph 기초](ch16/session2.md)에서 배운 LangGraph의 StateGraph, Node, Edge, Conditional Edge, MessagesState
-- [6장: 벡터 스토어와 ChromaDB](ch06/)에서 배운 ChromaDB 벡터 스토어 기본 사용법
+- [6장: 벡터 스토어와 ChromaDB](06-벡터-데이터베이스-기초-chromadb로-시작하기/01-벡터-데이터베이스란-왜-필요한가.md)에서 배운 ChromaDB 벡터 스토어 기본 사용법
 
 **학습 목표**:
 - 벡터 스토어 검색기를 LangChain Tool로 래핑하는 방법을 익힌다

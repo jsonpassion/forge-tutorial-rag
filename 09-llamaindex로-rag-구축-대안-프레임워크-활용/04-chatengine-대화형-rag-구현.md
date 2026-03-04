@@ -4,11 +4,11 @@
 
 ## 개요
 
-이 섹션에서는 LlamaIndex의 ChatEngine을 사용하여 **대화형 RAG 시스템**을 구축하는 방법을 학습합니다. 앞서 [Session 9.3: QueryEngine과 응답 합성](session-9-3)에서 배운 QueryEngine이 단일 질문에 대한 답변을 생성하는 도구였다면, ChatEngine은 여러 번의 대화를 이어가며 이전 맥락을 기억하는 **상태 유지(stateful)** 인터페이스입니다.
+이 섹션에서는 LlamaIndex의 ChatEngine을 사용하여 **대화형 RAG 시스템**을 구축하는 방법을 학습합니다. 앞서 [Session 9.3: QueryEngine과 응답 합성](09-llamaindex로-rag-구축-대안-프레임워크-활용/03-queryengine과-응답-합성.md)에서 배운 QueryEngine이 단일 질문에 대한 답변을 생성하는 도구였다면, ChatEngine은 여러 번의 대화를 이어가며 이전 맥락을 기억하는 **상태 유지(stateful)** 인터페이스입니다.
 
 **선수 지식**:
-- [Session 9.2](session-9-2)에서 배운 VectorStoreIndex와 검색 파이프라인
-- [Session 9.3](session-9-3)에서 배운 QueryEngine, RetrieverQueryEngine, ResponseSynthesizer의 구조
+- [Session 9.2](09-llamaindex로-rag-구축-대안-프레임워크-활용/02-vectorstoreindex-인덱싱과-검색.md)에서 배운 VectorStoreIndex와 검색 파이프라인
+- [Session 9.3](09-llamaindex로-rag-구축-대안-프레임워크-활용/03-queryengine과-응답-합성.md)에서 배운 QueryEngine, RetrieverQueryEngine, ResponseSynthesizer의 구조
 - Python의 기본적인 비동기(async/await) 문법에 대한 이해
 
 **학습 목표**:
@@ -152,7 +152,7 @@ chat_engine = index.as_chat_engine(
 )
 ```
 
-> 💡 **알고 계셨나요?**: 위 세 가지 외에도 `react` 모드가 있습니다. 이 모드는 ReAct 에이전트를 기반으로 ChatEngine이 **도구(tool)를 자율적으로 선택**하며 대화하는 방식인데요, 검색 외에도 계산, API 호출 등 다양한 도구를 조합할 수 있어 훨씬 유연합니다. `react` 모드의 에이전틱 접근법은 [Ch16: 에이전틱 RAG](ch16)에서 상세히 다룹니다.
+> 💡 **알고 계셨나요?**: 위 세 가지 외에도 `react` 모드가 있습니다. 이 모드는 ReAct 에이전트를 기반으로 ChatEngine이 **도구(tool)를 자율적으로 선택**하며 대화하는 방식인데요, 검색 외에도 계산, API 호출 등 다양한 도구를 조합할 수 있어 훨씬 유연합니다. `react` 모드의 에이전틱 접근법은 [Ch16: 에이전틱 RAG](16-에이전틱-rag-langgraph로-동적-검색-에이전트-구축/01-에이전틱-rag란-왜-에이전트가-필요한가.md)에서 상세히 다룹니다.
 
 > 📊 **그림 2**: 세 가지 ChatEngine 모드의 처리 흐름 비교
 
@@ -563,7 +563,7 @@ $$
 | **condense_question** | 대화 맥락으로 질문을 재작성 후 검색. 간단하지만 메타 질문에 약함 |
 | **context** | 원본 메시지로 검색 후 시스템 프롬프트에 주입. LLM 1회 호출 |
 | **condense_plus_context** | 질문 재작성 + 컨텍스트 검색 결합. 가장 균형 잡힌 모드 (권장) |
-| **react** | ReAct 에이전트 기반 모드. 도구를 자율 선택하며 대화 ([Ch16](ch16)에서 상세 설명) |
+| **react** | ReAct 에이전트 기반 모드. 도구를 자율 선택하며 대화 ([Ch16](16-에이전틱-rag-langgraph로-동적-검색-에이전트-구축/01-에이전틱-rag란-왜-에이전트가-필요한가.md)에서 상세 설명) |
 | **ChatMemoryBuffer** | token_limit 기반으로 최근 대화 히스토리를 관리하는 메모리 버퍼 |
 | **SimpleChatStore** | 대화 히스토리를 JSON 파일로 영속화. `chat_store_key`로 멀티유저 지원 |
 | **stream_chat()** | 토큰 단위 실시간 스트리밍 응답. `response_gen` 이터레이터로 소비 |
@@ -572,7 +572,7 @@ $$
 
 ## 다음 섹션 미리보기
 
-지금까지 LlamaIndex의 핵심 추상화(Document, Node, Index)부터 QueryEngine, ChatEngine까지 모두 살펴보았습니다. 다음 [Session 9.5](session-9-5)에서는 **LangChain vs LlamaIndex 비교 분석**을 통해 두 프레임워크의 설계 철학, 강점, 약점을 체계적으로 비교합니다. 앞서 [Ch8: 기본 RAG 파이프라인 구축](chapter-8)에서 LangChain으로 구축했던 RAG 파이프라인과, 이번 챕터에서 LlamaIndex로 구축한 파이프라인을 나란히 놓고, **어떤 상황에서 어떤 프레임워크가 적합한지** 실전 가이드를 제시합니다.
+지금까지 LlamaIndex의 핵심 추상화(Document, Node, Index)부터 QueryEngine, ChatEngine까지 모두 살펴보았습니다. 다음 [Session 9.5](09-llamaindex로-rag-구축-대안-프레임워크-활용/05-langchain-vs-llamaindex-프레임워크-선택-가이드.md)에서는 **LangChain vs LlamaIndex 비교 분석**을 통해 두 프레임워크의 설계 철학, 강점, 약점을 체계적으로 비교합니다. 앞서 [Ch8: 기본 RAG 파이프라인 구축](08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/01-langchain-v1-핵심-개념과-설정.md)에서 LangChain으로 구축했던 RAG 파이프라인과, 이번 챕터에서 LlamaIndex로 구축한 파이프라인을 나란히 놓고, **어떤 상황에서 어떤 프레임워크가 적합한지** 실전 가이드를 제시합니다.
 
 ## 참고 자료
 

@@ -6,7 +6,7 @@
 
 이 섹션에서는 FAISS(Facebook AI Similarity Search)의 핵심 인덱스 타입을 이해하고, Python에서 직접 벡터를 색인·검색하는 방법을 배웁니다. 정확도와 속도 사이의 트레이드오프를 체감하고, 백만 규모 데이터에서도 밀리초 단위로 유사 벡터를 찾아내는 실전 기술을 익힙니다.
 
-**선수 지식**: [Ch6: 벡터 데이터베이스 기초](ch06)에서 배운 벡터 저장·검색 개념, 코사인 유사도(Cosine Similarity)와 L2 거리, ANN(Approximate Nearest Neighbor) 알고리즘의 기본 원리
+**선수 지식**: [Ch6: 벡터 데이터베이스 기초](06-벡터-데이터베이스-기초-chromadb로-시작하기/01-벡터-데이터베이스란-왜-필요한가.md)에서 배운 벡터 저장·검색 개념, 코사인 유사도(Cosine Similarity)와 L2 거리, ANN(Approximate Nearest Neighbor) 알고리즘의 기본 원리
 
 **학습 목표**:
 - FAISS의 세 가지 핵심 인덱스(IndexFlatL2, IndexIVFFlat, IndexHNSWFlat)의 동작 원리와 차이를 설명할 수 있다

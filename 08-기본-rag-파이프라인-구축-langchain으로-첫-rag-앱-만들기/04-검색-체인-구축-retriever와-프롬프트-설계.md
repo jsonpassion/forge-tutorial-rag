@@ -4,12 +4,12 @@
 
 ## 개요
 
-이 세션에서는 [세션 8.3: 인덱싱 파이프라인 구축](ch08-03)에서 벡터 DB에 저장한 문서를 **검색(Retrieval)**하고, 그 결과를 **프롬프트에 주입**하여 LLM이 답변을 생성하는 전체 흐름을 구축합니다. RAG 파이프라인의 후반부, 즉 "검색 → 생성" 단계의 핵심입니다.
+이 세션에서는 [세션 8.3: 인덱싱 파이프라인 구축](08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/03-인덱싱-파이프라인-구축-문서에서-벡터-db까지.md)에서 벡터 DB에 저장한 문서를 **검색(Retrieval)**하고, 그 결과를 **프롬프트에 주입**하여 LLM이 답변을 생성하는 전체 흐름을 구축합니다. RAG 파이프라인의 후반부, 즉 "검색 → 생성" 단계의 핵심입니다.
 
 **선수 지식**:
-- [세션 8.1](ch08-01)의 LangChain v1 패키지 구조와 ChatModel 사용법
-- [세션 8.2](ch08-02)의 LCEL 파이프 연산자, RunnablePassthrough, RunnableParallel
-- [세션 8.3](ch08-03)의 `Chroma.from_documents()`를 통한 벡터 DB 인덱싱
+- [세션 8.1](08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/01-langchain-v1-핵심-개념과-설정.md)의 LangChain v1 패키지 구조와 ChatModel 사용법
+- [세션 8.2](08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/02-lcel-langchain-expression-language-마스터하기.md)의 LCEL 파이프 연산자, RunnablePassthrough, RunnableParallel
+- [세션 8.3](08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/03-인덱싱-파이프라인-구축-문서에서-벡터-db까지.md)의 `Chroma.from_documents()`를 통한 벡터 DB 인덱싱
 
 **학습 목표**:
 - VectorStoreRetriever의 3가지 `search_type`과 `search_kwargs`를 이해하고 설정할 수 있다
@@ -34,7 +34,7 @@
 
 > 💡 **비유**: 도서관에서 책을 찾는 방법을 생각해보세요. 사서에게 "AI에 관한 책"이라고 말하면, 사서는 여러 방법으로 책을 찾아줄 수 있습니다. 제목이 가장 비슷한 책 4권을 가져다 줄 수도 있고(similarity), 비슷하면서도 다양한 관점의 책을 골라줄 수도 있고(MMR), "관련도 80% 이상인 책만 주세요"라고 기준을 정할 수도 있습니다(similarity_score_threshold). VectorStoreRetriever가 바로 이 **사서** 역할을 합니다.
 
-[세션 8.3](ch08-03)에서 `Chroma.from_documents()`로 벡터 스토어를 만들었습니다. 이 벡터 스토어를 LCEL 체인에서 사용하려면 **Retriever** 인터페이스로 변환해야 합니다. `as_retriever()` 메서드가 바로 그 역할을 하죠.
+[세션 8.3](08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/03-인덱싱-파이프라인-구축-문서에서-벡터-db까지.md)에서 `Chroma.from_documents()`로 벡터 스토어를 만들었습니다. 이 벡터 스토어를 LCEL 체인에서 사용하려면 **Retriever** 인터페이스로 변환해야 합니다. `as_retriever()` 메서드가 바로 그 역할을 하죠.
 
 ```python
 # 벡터 스토어 → Retriever 변환
@@ -220,7 +220,7 @@ def format_docs_with_metadata(docs: list[Document]) -> str:
 
 ### 개념 4: LCEL로 RAG 검색 체인 조합하기
 
-이제 핵심 재료가 모두 준비되었습니다. [세션 8.2](ch08-02)에서 배운 LCEL의 `RunnablePassthrough`와 `RunnableParallel`을 활용하여 전체 RAG 체인을 조합합니다.
+이제 핵심 재료가 모두 준비되었습니다. [세션 8.2](08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/02-lcel-langchain-expression-language-마스터하기.md)에서 배운 LCEL의 `RunnablePassthrough`와 `RunnableParallel`을 활용하여 전체 RAG 체인을 조합합니다.
 
 > 📊 **그림 3**: LCEL RAG 체인의 데이터 흐름
 
@@ -581,7 +581,7 @@ MMR(Maximal Marginal Relevance)은 1998년 Jaime Carbonell과 Jade Goldstein이 
 
 ## 다음 섹션 미리보기
 
-이번 세션에서 Retriever와 프롬프트를 연결하여 작동하는 RAG 체인을 만들었습니다. 하지만 아직 **스트리밍**, **대화 기록 유지**, **에러 처리** 같은 실전적인 요소가 빠져 있죠. 다음 세션 [8.5: 완전한 RAG 앱 만들기](ch08-05)에서는 이 검색 체인을 기반으로 **대화형 RAG 애플리케이션**을 완성합니다. 대화 히스토리를 반영한 컨텍스트 인식 검색과 스트리밍 출력까지 구현합니다.
+이번 세션에서 Retriever와 프롬프트를 연결하여 작동하는 RAG 체인을 만들었습니다. 하지만 아직 **스트리밍**, **대화 기록 유지**, **에러 처리** 같은 실전적인 요소가 빠져 있죠. 다음 세션 [8.5: 완전한 RAG 앱 만들기](08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/05-완성된-rag-체인-질문-응답-시스템-구현.md)에서는 이 검색 체인을 기반으로 **대화형 RAG 애플리케이션**을 완성합니다. 대화 히스토리를 반영한 컨텍스트 인식 검색과 스트리밍 출력까지 구현합니다.
 
 ## 참고 자료
 

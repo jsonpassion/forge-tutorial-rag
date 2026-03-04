@@ -6,7 +6,7 @@
 
 이 섹션에서는 LlamaIndex에서 가장 많이 사용되는 인덱스인 VectorStoreIndex를 깊이 있게 다룹니다. 이전 섹션에서 배운 Document와 Node 개념 위에, 실제로 벡터를 생성하고 저장하고 검색하는 과정 전체를 직접 구현해봅니다.
 
-**선수 지식**: [세션 9.1: LlamaIndex 핵심 개념](session-9.1)에서 배운 Document, Node, Index의 관계
+**선수 지식**: [세션 9.1: LlamaIndex 핵심 개념](09-llamaindex로-rag-구축-대안-프레임워크-활용/01-llamaindex-핵심-개념-document-node-index.md)에서 배운 Document, Node, Index의 관계
 **학습 목표**:
 - VectorStoreIndex를 생성하고 쿼리 엔진으로 질문에 답하는 흐름을 구현할 수 있다
 - StorageContext를 통해 ChromaDB 같은 외부 벡터 DB와 연동할 수 있다
@@ -15,7 +15,7 @@
 
 ## 왜 알아야 할까?
 
-[세션 9.1](session-9.1)에서 Document → Node → Index의 개념적 흐름을 배웠죠? 하지만 실제 RAG 앱을 만들려면 한 가지 핵심 질문에 답해야 합니다. **"만든 인덱스를 어떻게 저장하고, 다시 불러오고, 실제 검색에 활용하지?"**
+[세션 9.1](09-llamaindex로-rag-구축-대안-프레임워크-활용/01-llamaindex-핵심-개념-document-node-index.md)에서 Document → Node → Index의 개념적 흐름을 배웠죠? 하지만 실제 RAG 앱을 만들려면 한 가지 핵심 질문에 답해야 합니다. **"만든 인덱스를 어떻게 저장하고, 다시 불러오고, 실제 검색에 활용하지?"**
 
 매번 앱을 시작할 때마다 수천 개의 문서를 다시 임베딩한다면? 시간과 비용이 어마어마하겠죠. VectorStoreIndex의 영속화(persistence)와 외부 벡터 DB 연동은 프로토타입에서 프로덕션으로 넘어가는 첫 번째 관문입니다. 또한 SimpleDirectoryReader를 활용하면 PDF, 워드, 마크다운 등 다양한 형식의 파일을 한 줄의 코드로 읽어들여 빠르게 RAG를 검증할 수 있습니다.
 
@@ -25,7 +25,7 @@
 
 > 💡 **비유**: VectorStoreIndex는 **도서관의 색인 카드함**과 같습니다. 도서관에 책이 들어오면, 사서가 각 책의 핵심 내용을 카드에 적어 카드함에 정리하죠. 누군가 "AI에 관한 책 찾아주세요"라고 하면, 사서는 카드함에서 관련 카드를 빠르게 찾아 해당 책을 가져다줍니다. VectorStoreIndex가 바로 이 카드함 역할을 합니다 — 문서(책)를 임베딩(카드 내용)으로 변환해서 벡터 공간(카드함)에 정리해두는 거죠.
 
-VectorStoreIndex는 LlamaIndex에서 가장 널리 쓰이는 인덱스 타입입니다. [세션 9.1](session-9.1)에서 배운 것처럼, 내부적으로 Document를 Node로 분할한 뒤 각 Node의 텍스트를 임베딩 벡터로 변환합니다. 쿼리가 들어오면 쿼리 역시 벡터로 변환하고, 코사인 유사도(Cosine Similarity) 같은 메트릭으로 가장 관련 있는 Node를 찾아냅니다.
+VectorStoreIndex는 LlamaIndex에서 가장 널리 쓰이는 인덱스 타입입니다. [세션 9.1](09-llamaindex로-rag-구축-대안-프레임워크-활용/01-llamaindex-핵심-개념-document-node-index.md)에서 배운 것처럼, 내부적으로 Document를 Node로 분할한 뒤 각 Node의 텍스트를 임베딩 벡터로 변환합니다. 쿼리가 들어오면 쿼리 역시 벡터로 변환하고, 코사인 유사도(Cosine Similarity) 같은 메트릭으로 가장 관련 있는 Node를 찾아냅니다.
 
 > 📊 **그림 1**: VectorStoreIndex의 인덱싱 → 검색 흐름
 
@@ -105,7 +105,7 @@ print(f"\n참조 소스 수: {len(response.source_nodes)}")
 참조 소스 수: 2
 ```
 
-`similarity_top_k` 파라미터는 검색할 상위 Node의 수를 지정합니다. 기본값은 2인데요, 더 많은 컨텍스트가 필요하면 늘리고, 정밀도를 높이고 싶으면 줄이면 됩니다. [세션 10.1](session-10.1)에서 이 값을 조정하는 전략을 더 자세히 다룹니다.
+`similarity_top_k` 파라미터는 검색할 상위 Node의 수를 지정합니다. 기본값은 2인데요, 더 많은 컨텍스트가 필요하면 늘리고, 정밀도를 높이고 싶으면 줄이면 됩니다. [세션 10.1](10-검색-품질-향상-유사도-검색과-메타데이터-필터링/01-유사도-검색-심화-top-k와-임계값-최적화.md)에서 이 값을 조정하는 전략을 더 자세히 다룹니다.
 
 > 📊 **그림 2**: QueryEngine 내부의 Retriever → Synthesizer 흐름
 
@@ -248,7 +248,7 @@ graph TD
     style IS fill:#9B59B6,color:#fff
 ```
 
-**ChromaDB와 연동하는 예제**를 살펴볼까요? [Ch6: 벡터 데이터베이스 기초](ch06)에서 배운 ChromaDB를 LlamaIndex와 함께 사용하는 방법입니다. ChromaVectorStore 어댑터를 통해 LlamaIndex의 StorageContext에 ChromaDB를 연결하면, 이미 익숙한 ChromaDB의 영속 저장 기능을 그대로 활용할 수 있죠:
+**ChromaDB와 연동하는 예제**를 살펴볼까요? [Ch6: 벡터 데이터베이스 기초](06-벡터-데이터베이스-기초-chromadb로-시작하기/01-벡터-데이터베이스란-왜-필요한가.md)에서 배운 ChromaDB를 LlamaIndex와 함께 사용하는 방법입니다. ChromaVectorStore 어댑터를 통해 LlamaIndex의 StorageContext에 ChromaDB를 연결하면, 이미 익숙한 ChromaDB의 영속 저장 기능을 그대로 활용할 수 있죠:
 
 ```python
 import chromadb

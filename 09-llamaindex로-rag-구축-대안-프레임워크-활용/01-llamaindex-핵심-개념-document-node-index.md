@@ -4,9 +4,9 @@
 
 ## 개요
 
-이 섹션에서는 LlamaIndex의 핵심 데이터 구조인 Document, Node, Index를 학습합니다. [Ch8](ch08)에서 LangChain으로 RAG 파이프라인을 구축해본 경험을 바탕으로, LlamaIndex가 **같은 문제를 어떻게 다르게 해결하는지** 구조적으로 비교합니다. NodeParser를 통한 자동 청킹, 노드 간 관계 그래프, 그리고 IngestionPipeline까지 — LangChain에서는 수동으로 처리해야 했던 부분들이 어떻게 추상화되어 있는지 살펴봅니다.
+이 섹션에서는 LlamaIndex의 핵심 데이터 구조인 Document, Node, Index를 학습합니다. [Ch8](08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/01-langchain-v1-핵심-개념과-설정.md)에서 LangChain으로 RAG 파이프라인을 구축해본 경험을 바탕으로, LlamaIndex가 **같은 문제를 어떻게 다르게 해결하는지** 구조적으로 비교합니다. NodeParser를 통한 자동 청킹, 노드 간 관계 그래프, 그리고 IngestionPipeline까지 — LangChain에서는 수동으로 처리해야 했던 부분들이 어떻게 추상화되어 있는지 살펴봅니다.
 
-**선수 지식**: [Ch8: 기본 RAG 파이프라인 구축](ch08)에서 배운 LangChain 기반 RAG 파이프라인의 전체 흐름(문서 로딩 → 청킹 → 임베딩 → 검색 → 생성)을 이해하고 있어야 합니다. [Ch4: 텍스트 청킹 전략](ch04)에서 다룬 청킹 개념과 [Ch5: 임베딩 모델 이해](ch05)에서 배운 벡터 임베딩 개념도 필요합니다.
+**선수 지식**: [Ch8: 기본 RAG 파이프라인 구축](08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/01-langchain-v1-핵심-개념과-설정.md)에서 배운 LangChain 기반 RAG 파이프라인의 전체 흐름(문서 로딩 → 청킹 → 임베딩 → 검색 → 생성)을 이해하고 있어야 합니다. [Ch4: 텍스트 청킹 전략](04-텍스트-청킹-전략-문서-분할과-최적화/01-청킹의-중요성과-기본-원리.md)에서 다룬 청킹 개념과 [Ch5: 임베딩 모델 이해](05-임베딩-모델-이해-텍스트를-벡터로-변환/01-임베딩의-기본-개념-단어에서-문장까지.md)에서 배운 벡터 임베딩 개념도 필요합니다.
 
 **학습 목표**:
 - LlamaIndex의 Document, Node, Index 세 가지 핵심 추상화를 LangChain 대응 개념과 비교하여 설명할 수 있다
@@ -16,7 +16,7 @@
 
 ## 왜 알아야 할까?
 
-[Ch8](ch08)에서 LangChain으로 RAG 파이프라인을 구축해 보셨죠? `TextSplitter` → `Embeddings` → `VectorStore` → `RetrievalQA`로 이어지는 체인을 직접 연결하면서, 각 단계를 명시적으로 제어하는 LangChain의 방식에 익숙해졌을 겁니다.
+[Ch8](08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/01-langchain-v1-핵심-개념과-설정.md)에서 LangChain으로 RAG 파이프라인을 구축해 보셨죠? `TextSplitter` → `Embeddings` → `VectorStore` → `RetrievalQA`로 이어지는 체인을 직접 연결하면서, 각 단계를 명시적으로 제어하는 LangChain의 방식에 익숙해졌을 겁니다.
 
 그런데 실무에서 RAG 시스템을 운영하다 보면 이런 불편함을 느끼게 됩니다:
 
@@ -60,7 +60,7 @@ flowchart TD
 
 > 💡 **비유**: LangChain의 Document가 **메모지** — 내용과 출처 스티커만 붙어 있는 — 라면, LlamaIndex의 Document는 **서류 봉투**입니다. 봉투 안에는 내용이 들어 있고, 겉면에는 라벨(메타데이터)이 붙어 있으며, 봉투끼리 **끈으로 연결(relationships)**되어 한 묶음의 서류가 흩어지지 않게 관리됩니다.
 
-[Session 3.1](session-3.1)에서 배운 LangChain의 `Document` 객체를 떠올려 보세요. `page_content`와 `metadata` 두 필드로 구성되어 있었죠. LlamaIndex의 `Document`는 여기에 `relationships` 필드를 추가하여 **문서 간의 관계까지 표현**합니다.
+[Session 3.1](03-문서-로딩과-파싱-다양한-소스에서-데이터-수집/01-문서-로딩-기초-langchain-document-loaders.md)에서 배운 LangChain의 `Document` 객체를 떠올려 보세요. `page_content`와 `metadata` 두 필드로 구성되어 있었죠. LlamaIndex의 `Document`는 여기에 `relationships` 필드를 추가하여 **문서 간의 관계까지 표현**합니다.
 
 | 속성 | LangChain `Document` | LlamaIndex `Document` |
 |------|----------------------|----------------------|
@@ -104,7 +104,7 @@ documents = SimpleDirectoryReader("./data").load_data()
 
 > 💡 **비유**: LangChain의 청킹이 **가위로 신문을 오려 스크랩하는 것**이라면, LlamaIndex의 Node는 **위키피디아 문서의 하이퍼링크 네트워크**와 같습니다. 각 페이지(Node)가 독립적으로 존재하면서도 "이전 글", "다음 글", "상위 카테고리" 같은 링크로 서로 연결되어 있죠.
 
-[Ch4](ch04)에서 `RecursiveCharacterTextSplitter`로 텍스트를 분할했을 때, 결과물은 `page_content`만 가진 독립적인 텍스트 조각이었습니다. 검색으로 한 조각을 찾아도, 그 앞뒤에 어떤 내용이 있었는지 알 수 없었죠.
+[Ch4](04-텍스트-청킹-전략-문서-분할과-최적화/01-청킹의-중요성과-기본-원리.md)에서 `RecursiveCharacterTextSplitter`로 텍스트를 분할했을 때, 결과물은 `page_content`만 가진 독립적인 텍스트 조각이었습니다. 검색으로 한 조각을 찾아도, 그 앞뒤에 어떤 내용이 있었는지 알 수 없었죠.
 
 LlamaIndex의 Node는 이 문제를 **관계 그래프**로 해결합니다:
 
@@ -181,7 +181,7 @@ Node 1 → 다음 Node: e5f6g7h8...
   CHILD: 5
 ```
 
-이 관계 정보가 실전에서 빛을 발하는 순간이 있습니다. 검색으로 `node2`가 반환되었을 때, `PREVIOUS` 관계를 따라가면 바로 앞 문맥(`node1`)도 함께 가져올 수 있거든요. LangChain에서는 이런 "윈도우 기반 컨텍스트 확장"을 직접 구현해야 했지만, LlamaIndex에서는 관계 그래프가 이미 구축되어 있어 `MetadataReplacementPostProcessor` 같은 후처리기를 바로 사용할 수 있습니다. [Ch14: 고급 청킹과 인덱싱](ch14)에서 다룰 부모-자식 청킹이 바로 이 관계 시스템 위에 구축됩니다.
+이 관계 정보가 실전에서 빛을 발하는 순간이 있습니다. 검색으로 `node2`가 반환되었을 때, `PREVIOUS` 관계를 따라가면 바로 앞 문맥(`node1`)도 함께 가져올 수 있거든요. LangChain에서는 이런 "윈도우 기반 컨텍스트 확장"을 직접 구현해야 했지만, LlamaIndex에서는 관계 그래프가 이미 구축되어 있어 `MetadataReplacementPostProcessor` 같은 후처리기를 바로 사용할 수 있습니다. [Ch14: 고급 청킹과 인덱싱](14-고급-청킹과-인덱싱-raptor-시멘틱-청킹-부모-자식-청킹/01-부모-자식-청킹-작게-검색하고-크게-반환하기.md)에서 다룰 부모-자식 청킹이 바로 이 관계 시스템 위에 구축됩니다.
 
 ### 개념 3: NodeParser — LangChain의 TextSplitter와 무엇이 다른가
 
@@ -284,7 +284,7 @@ for i, node in enumerate(nodes):
 
 > 💡 **비유**: LangChain에서 인덱스를 만드는 것이 **재료를 하나씩 꺼내서 요리하는 가정식**이라면, LlamaIndex의 Index는 **재료를 넣으면 완성품이 나오는 자동 요리 기계**입니다. 내부적으로 같은 과정을 거치지만, 사용자는 입력과 출력만 신경 쓰면 됩니다.
 
-[Ch8](ch08)에서 LangChain으로 벡터 스토어를 구축할 때, 각 단계를 명시적으로 호출해야 했던 것을 기억하시나요?
+[Ch8](08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/01-langchain-v1-핵심-개념과-설정.md)에서 LangChain으로 벡터 스토어를 구축할 때, 각 단계를 명시적으로 호출해야 했던 것을 기억하시나요?
 
 ```python
 # === LangChain: 각 단계를 명시적으로 연결 ===
@@ -422,11 +422,11 @@ flowchart LR
     style G fill:#c6f6d5
 ```
 
-이 기능은 [Ch10: 검색 품질 향상](ch10)에서 배울 메타데이터 필터링과 직접 연결됩니다.
+이 기능은 [Ch10: 검색 품질 향상](10-검색-품질-향상-유사도-검색과-메타데이터-필터링/01-유사도-검색-심화-top-k와-임계값-최적화.md)에서 배울 메타데이터 필터링과 직접 연결됩니다.
 
 ### 개념 7: 설계 철학 비교 — 언제 어떤 프레임워크를 선택할까
 
-두 프레임워크는 근본적으로 다른 철학을 가지고 있습니다. [Ch8](ch08)에서 LangChain의 "모듈러 체인" 방식을 경험했으니, LlamaIndex의 "데이터 중심" 방식과 비교하며 각각의 강점을 정리해 봅시다:
+두 프레임워크는 근본적으로 다른 철학을 가지고 있습니다. [Ch8](08-기본-rag-파이프라인-구축-langchain으로-첫-rag-앱-만들기/01-langchain-v1-핵심-개념과-설정.md)에서 LangChain의 "모듈러 체인" 방식을 경험했으니, LlamaIndex의 "데이터 중심" 방식과 비교하며 각각의 강점을 정리해 봅시다:
 
 | 비교 항목 | LangChain | LlamaIndex |
 |-----------|-----------|------------|
@@ -638,7 +638,7 @@ LlamaIndex의 창시자 Jerry Liu는 프린스턴 대학교에서 GAN(생성적 
 
 LlamaIndex가 단순한 텍스트 청크 대신 Node라는 추상화를 도입한 이유는 **문서의 구조적 정보를 보존**하기 위해서입니다. 실제 문서는 제목, 소제목, 단락, 표 등 계층적 구조를 가지고 있는데, 단순 텍스트 분할은 이 구조를 완전히 무시합니다.
 
-Node의 관계 시스템(`SOURCE`, `PREVIOUS`, `NEXT`, `PARENT`, `CHILD`)은 이 구조를 표현할 수 있는 그래프를 형성합니다. 이 그래프가 있기 때문에 [Ch14](ch14)에서 다룰 RAPTOR나 부모-자식 검색 같은 고급 기법이 가능해지는 것이죠.
+Node의 관계 시스템(`SOURCE`, `PREVIOUS`, `NEXT`, `PARENT`, `CHILD`)은 이 구조를 표현할 수 있는 그래프를 형성합니다. 이 그래프가 있기 때문에 [Ch14](14-고급-청킹과-인덱싱-raptor-시멘틱-청킹-부모-자식-청킹/01-부모-자식-청킹-작게-검색하고-크게-반환하기.md)에서 다룰 RAPTOR나 부모-자식 검색 같은 고급 기법이 가능해지는 것이죠.
 
 ## 흔한 오해와 팁
 
@@ -662,7 +662,7 @@ Node의 관계 시스템(`SOURCE`, `PREVIOUS`, `NEXT`, `PARENT`, `CHILD`)은 이
 
 ## 다음 섹션 미리보기
 
-이번 섹션에서 Document, Node, Index의 구조적 특징과 LangChain과의 차이를 이해했으니, 다음 섹션 **[9.2: VectorStoreIndex로 RAG 구축하기](ch09/session02)**에서는 이 개념들을 실제 RAG 파이프라인으로 조합합니다. `VectorStoreIndex`를 중심으로 문서 로딩부터 쿼리 응답까지 완전한 파이프라인을 구축하고, `QueryEngine`의 다양한 설정(`response_mode`, `similarity_top_k`, `node_postprocessors`)을 통해 검색 품질을 조정하는 방법을 배웁니다.
+이번 섹션에서 Document, Node, Index의 구조적 특징과 LangChain과의 차이를 이해했으니, 다음 섹션 **[9.2: VectorStoreIndex로 RAG 구축하기](09-llamaindex로-rag-구축-대안-프레임워크-활용/02-vectorstoreindex-인덱싱과-검색.md)**에서는 이 개념들을 실제 RAG 파이프라인으로 조합합니다. `VectorStoreIndex`를 중심으로 문서 로딩부터 쿼리 응답까지 완전한 파이프라인을 구축하고, `QueryEngine`의 다양한 설정(`response_mode`, `similarity_top_k`, `node_postprocessors`)을 통해 검색 품질을 조정하는 방법을 배웁니다.
 
 ## 참고 자료
 
